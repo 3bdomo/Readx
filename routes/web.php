@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return "test vercel";
-    // view('welcome');
-    
+    return view('welcome');
+
 });
