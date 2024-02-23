@@ -17,7 +17,7 @@ class AuthController extends Controller
             'first_name'=>['required','max:255','string'],
             'last_name'=>['required','max:255','string'],
             'email'=>['required','email','unique:'. User::class] ,
-            'password'=>['required','min:6',Rules\password::defaults()],
+            'password'=>['required','min:6'],
             'student_id'=>['required','unique:'.User::class,'integer'],
 
         ],[],[
