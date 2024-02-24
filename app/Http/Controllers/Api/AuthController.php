@@ -72,7 +72,8 @@ class AuthController extends Controller
         }
       if(Auth::attempt(['email'=>$request->email, 'password'=>$request->password])) {
           $user = Auth::user();
-         // $request->currentAccessToken()->delete;
+
+          Auth::user()->tokens()->delete();//delete odl tokens
           $data['token'] = $user->createToken('user_token')->plainTextToken;
           $data['name'] = $user->first_name;
           return ApiResponse::SendResponse(200, "login successfully", $data);
