@@ -82,7 +82,7 @@ class AuthController extends Controller
       }
     }
     public function logout(Request $request){
-    $request->user()->currentAccessToken()->delet();
+    $request->user()->currentAccessToken()->delete();
     return     ApiResponse::SendResponse(200,"logout successfully",null);
     }
 }
