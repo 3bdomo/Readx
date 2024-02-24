@@ -41,7 +41,7 @@ class AuthController extends Controller
     
       ]);
       $data['token']= $user->createToken('user_token')->plainTextToken;
-      $data['name']=$request->firrst_name;
+      $data['name']=$request->first_name;
       return ApiResponse::SendResponse(201,"Registration successfully",$data);
 
 
