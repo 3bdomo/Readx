@@ -6,8 +6,10 @@ use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
+
 
 class AuthController extends Controller
 {
@@ -17,8 +19,8 @@ class AuthController extends Controller
             'first_name'=>['required','max:255','string'],
             'last_name'=>['required','max:255','string'],
             'email'=>['required','email','unique:'. User::class] ,
-            'password'=>['required','min:6'],
-           // 'student_id'=>['required','unique:'.User::class,'integer'],
+            'password'=>['required','min:6',Rules\Password::default()],
+            'student_id'=>['required','unique:'.User::class,'integer'],
 
         ],[],[
             'first_name'=>'First Name',
@@ -35,10 +37,10 @@ class AuthController extends Controller
       $user=User::create([
         'first_name'=>$request->first_name,
         'last_name'=>$request->last_name,
-        'password'=>$request->password,
+        'password'=>Hash::make($request->password),
         'email'=>$request->email,
         'student_id'=>$request->student_id,
-    
+
       ]);
       $data['token']= $user->createToken('user_token')->plainTextToken;
       $data['name']=$request->first_name;
@@ -48,14 +50,14 @@ class AuthController extends Controller
 
 
 
-  
+
 
 
     }
     public function login(){
-        
+
     }
     public function logout(){
-        
+
     }
 }
