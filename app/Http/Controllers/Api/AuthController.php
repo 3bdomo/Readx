@@ -18,7 +18,7 @@ class AuthController extends Controller
             'last_name'=>['required','max:255','string'],
             'email'=>['required','email','unique:'. User::class] ,
             'password'=>['required','min:6'],
-            'student_id'=>['required','unique:'.User::class,'integer'],
+           // 'student_id'=>['required','unique:'.User::class,'integer'],
 
         ],[],[
             'first_name'=>'First Name',
