@@ -6,6 +6,7 @@ use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
@@ -31,7 +32,7 @@ class AuthController extends Controller
         ]);
 
         if($validator->fails() ){
-            return ApiResponse::SendResponse(422,'error',$validator->messages()->all());
+            return ApiResponse::SendResponse(422,'validation error',$validator->messages()->all());
 
         }
       $user=User::create([
@@ -54,8 +55,30 @@ class AuthController extends Controller
 
 
     }
-    public function login(){
+    public function login(Request $request){
+        $validator =Validator::make($request->all(),
+            [
+                'email'=>['required','email'] ,
+                'password'=>['required'],
+            ],[],
+            [
+                'email'=>'Email',
+                'password'=>'Password',
+            ]);
 
+        if($validator->fails() ){
+            return ApiResponse::SendResponse(422,'validation error',$validator->errors());
+
+        }
+      if(Auth::attempt(['email'=>$validator->email, 'password'=>$validator->password])) {
+          $user = Auth::user();
+          $data['token'] = $user->createToken('user_token')->plainTextToken;
+          $data['name'] = $user->first_name;
+          return ApiResponse::SendResponse(200, "login successfully", $data);
+
+      }else{
+          return ApiResponse::SendResponse(401, "invalid credentials", null);
+      }
     }
     public function logout(){
 
