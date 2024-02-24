@@ -70,7 +70,7 @@ class AuthController extends Controller
             return ApiResponse::SendResponse(422,'validation error',$validator->errors());
 
         }
-      if(Auth::attempt(['email'=>$validator->email, 'password'=>$validator->password])) {
+      if(Auth::attempt(['email'=>$request->email, 'password'=>$request->password])) {
           $user = Auth::user();
           $data['token'] = $user->createToken('user_token')->plainTextToken;
           $data['name'] = $user->first_name;
