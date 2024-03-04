@@ -49,12 +49,9 @@ class AuthController extends Controller
 
 
 
-
-
-
-
-
     }
+
+
     public function login(Request $request){
         $validator =Validator::make($request->all(),
             [
@@ -82,8 +79,10 @@ class AuthController extends Controller
           return ApiResponse::SendResponse(401, "invalid credentials", null);
       }
     }
+
+
     public function logout(Request $request){
     $request->user()->currentAccessToken()->delete();
     return     ApiResponse::SendResponse(200,"logout successfully",null);
-    }
+     }
 }
