@@ -49,6 +49,10 @@ class AuthController extends Controller
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c34950caa106b47b166f29db9b0d8ca7407e3d71
     }
 
 
