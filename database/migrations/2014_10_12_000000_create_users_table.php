@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('first_name');
             $table->string('last_name');
             $table->integer('student_id');
@@ -22,11 +22,18 @@ return new class extends Migration
             $table->string('faculty')->default('FCI-Minya');
             $table->boolean('eligible_to_registration')->default(false);
             $table->boolean('registration_status')->default(false);
-            $table->integer('app_level')->default(0);
-            $table->integer('points')->default(0);
+           // $table->foreignId('project_id')->nullable()->constrained()->onDelete('cascade');
+//            $table->foreignId('project_id')->nullable()
+//                ->constrained('projects')
+//                ->onUpdate('cascade')
+//                ->onDelete('cascade');
+
+            $table->unsignedInteger('app_level')->default(0);
+            $table->unsignedInteger('points')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
+
     }
 
     /**

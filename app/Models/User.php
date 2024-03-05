@@ -49,4 +49,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function project(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+
+        return $this->belongsTo(Project::class);
+    }
 }

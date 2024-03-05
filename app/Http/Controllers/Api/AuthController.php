@@ -14,46 +14,43 @@ use Illuminate\Validation\Rules;
 
 class AuthController extends Controller
 {
-    public function register(Request $request){
-        $validator =Validator::make($request->all(),
-        [
-            'first_name'=>['required','max:255','string'],
-            'last_name'=>['required','max:255','string'],
-            'email'=>['required','email','unique:'. User::class] ,
-            'password'=>['required','min:6',Rules\Password::default()],
-            'student_id'=>['required','unique:'.User::class,'integer'],
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(),
+            [
+                'first_name' => ['required', 'max:255', 'string'],
+                'last_name' => ['required', 'max:255', 'string'],
+                'email' => ['required', 'email', 'unique:' . User::class],
+                'password' => ['required', 'min:6', Rules\Password::default()],
+                'student_id' => ['required', 'unique:' . User::class, 'integer'],
 
-        ],[],[
-            'first_name'=>'First Name',
-            'last_name'=>'Last Name',
-            'email'=>'Email',
-            'student_id'=>'Student ID',
-            'password'=>'Password',
-        ]);
+            ], [], [
+                'first_name' => 'First Name',
+                'last_name' => 'Last Name',
+                'email' => 'Email',
+                'student_id' => 'Student ID',
+                'password' => 'Password',
+            ]);
 
-        if($validator->fails() ){
-            return ApiResponse::SendResponse(422,'validation error',$validator->messages()->all());
+        if ($validator->fails()) {
+            return ApiResponse::SendResponse(422, 'validation error', $validator->messages()->all());
 
         }
-      $user=User::create([
-        'first_name'=>$request->first_name,
-        'last_name'=>$request->last_name,
-        'password'=>Hash::make($request->password),
-        'email'=>$request->email,
-        'student_id'=>$request->student_id,
+        $user = User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'password' => Hash::make($request->password),
+            'email' => $request->email,
+            'student_id' => $request->student_id,
 
-      ]);
-      $data['token']= $user->createToken('user_token')->plainTextToken;
-      $data['name']=$request->first_name;
-      return ApiResponse::SendResponse(201,"Registration successfully",$data);
+        ]);
+        $data['token'] = $user->createToken('user_token')->plainTextToken;
+        $data['name'] = $request->first_name;
+        $data['Id'] = $user->id;
+        return ApiResponse::SendResponse(201, "Registration successfully", $data);
 
-
-
-<<<<<<< HEAD
-=======
-
->>>>>>> c34950caa106b47b166f29db9b0d8ca7407e3d71
     }
+
 
 
     public function login(Request $request){
@@ -77,6 +74,8 @@ class AuthController extends Controller
           Auth::user()->tokens()->delete();//delete odl tokens
           $data['token'] = $user->createToken('user_token')->plainTextToken;
           $data['name'] = $user->first_name;
+          $data['ID'] = $user->id;
+
           return ApiResponse::SendResponse(200, "login successfully", $data);
 
       }else{
