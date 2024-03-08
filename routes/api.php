@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+// --------------------------------<Authentication Routes>--------------------------------
 Route::controller(AuthController::class)->group(function(){
 
     Route::post('/register', 'register');
@@ -27,9 +28,10 @@ Route::controller(AuthController::class)->group(function(){
     Route::post('/logout', 'logout')->middleware('auth:sanctum');
 });
 
-
+// --------------------------------<Graduation Projects Routes>--------------------------------
 Route::controller(ProjectController::class)->middleware('auth:sanctum')
     ->group(function(){
     Route::get('/GP_show', 'show');
-
+    Route::post('/submit_GP', 'submit');
+    Route::get('/get_GP', 'get_GP');
 });

@@ -21,11 +21,14 @@ class ProjectFactory extends Factory
             'name' => fake()->name,
             'description' => fake()->msedge,
             'year' => fake()->year,
+
+            'output' =>fake()->jobTitle,
+            'technologies'=>'php,android,react',
             'Professor_name' => fake()->name,
             'Professor_email' => fake()->email,
             'Assistant_teacher_name' => fake()->name,
             'Assistant_teacher_email' => fake()->email,
-            'classification' => fake()->text,
+            'field' => fake()->text,
             'faculty' =>'FCI',
             'status'=>'accepted',
         ];

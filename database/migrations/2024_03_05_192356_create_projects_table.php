@@ -15,14 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->string('classification');
-            $table->string('faculty');
+            $table->string('field');
+            $table->string('output')->nullable();
+            $table->string('faculty')->default("FCI Minia");
             $table->year('year');
-            $table->enum('status',['accepted','rejected','under_processing']);
-            $table->string('assistant_teacher_name');
-            $table->string('assistant_teacher_email')->unique();
-            $table->string('professor_name');
-            $table->string('professor_email')->unique();
+            $table->enum('status',['accepted','rejected','pending']);
+            $table->string('technologies')->nullable();
+            $table->string('assistant_teacher_name')->nullable();
+            $table->string('assistant_teacher_email')->unique()->nullable();
+            $table->string('professor_name')->nullable();
+            $table->string('professor_email')->unique()->nullable();
             $table->timestamps();
         });
     }

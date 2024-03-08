@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('faculty')->default('FCI-Minya');
+            $table->string('faculty')->default('FCI-Minia');
             $table->boolean('eligible_to_registration')->default(false);
             $table->boolean('registration_status')->default(false);
            // $table->foreignId('project_id')->nullable()->constrained()->onDelete('cascade');
