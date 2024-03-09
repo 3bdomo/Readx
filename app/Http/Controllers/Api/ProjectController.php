@@ -19,28 +19,7 @@ class ProjectController extends Controller
     {
 
         $project = Project::latest()->paginate(5);
-        if (count($project) > 0) {
-            if ($project->total() > $project->perPage()) {
-                $data = [
-                    'records' => projectResource::collection($project),
-                    'pagination links' => [
-                        'current page' => $project->currentPage(),
-                        'per page' => $project->perPage(),
-                        'total' => $project->total(),
-                        'links' => [
-                            'first' => $project->url(1),
-                            'next' => $project->nextPageUrl(),
-                            'previous' => $project->previousPageUrl(),
-                            'last' => $project->url($project->lastPage()),
-                        ],
-                    ],
-                ];
-            } else {
-                $data = ProjectResource::collection($project);
-            }
-            return ApiResponse::sendResponse(200, '', $data);
-        }
-        return ApiResponse::sendResponse(200, 'no projects found', []);
+        return $this->pagination($project);
 
     }
 
@@ -83,6 +62,7 @@ class ProjectController extends Controller
     }
 
 
+    //get the registered project if exist
     public function get_GP(): \Illuminate\Http\JsonResponse
     {
 
@@ -93,5 +73,76 @@ class ProjectController extends Controller
        else {
            return ApiResponse::SendResponse(200, 'No project founded','' );
        }
+    }
+
+
+    public function search_GP(Request $request): \Illuminate\Http\JsonResponse
+    {
+
+        // Retrieve the search query from the request
+        $query = $request->input('query');
+
+        // Retrieve the filter value from the request
+        $filter = $request->input('filter');
+
+        // Perform the search based on the query and filter
+        $projects = Project::query();
+
+        // If a filter is specified, order the results by the specified column
+        if ($filter) {
+            // Check if the filter value is a valid column name
+            if (in_array($filter, ['name', 'description', 'field', 'output', 'faculty', 'year', 'technologies', 'assistant_teacher_name', 'assistant_teacher_email', 'professor_name', 'professor_email'])) {
+                // If it's valid, use it as a column name in the query
+                $projects->where($filter, 'like', '%' . $query . '%');
+            }
+        }
+
+        // If no filter is specified, search in all columns
+        if (!$filter) {
+            $projects->where('name', 'like', '%' . $query . '%')
+                    ->orWhere('description', 'like', '%' . $query . '%')
+                    ->orWhere('field', 'like', '%' . $query . '%')
+                    ->orWhere('output', 'like', '%' . $query . '%')
+                    ->orWhere('faculty', 'like', '%' . $query . '%')
+                    ->orWhere('year', 'like', '%' . $query . '%')
+                    ->orWhere('technologies', 'like', '%' . $query . '%')
+                    ->orWhere('assistant_teacher_name', 'like', '%' . $query . '%')
+                    ->orWhere('assistant_teacher_email', 'like', '%' . $query . '%')
+                    ->orWhere('professor_name', 'like', '%' . $query . '%')
+                    ->orWhere('professor_email', 'like', '%' . $query . '%');
+
+        }
+
+        // Get the results
+        $project = $projects->paginate(5);
+
+        return $this->pagination($project);
+    }
+
+
+    public function pagination(\Illuminate\Contracts\Pagination\LengthAwarePaginator $project): \Illuminate\Http\JsonResponse
+    {
+        if (count($project) > 0) {
+            if ($project->total() > $project->perPage()) {
+                $data = [
+                    'records' => projectResource::collection($project),
+                    'pagination links' => [
+                        'current page' => $project->currentPage(),
+                        'per page' => $project->perPage(),
+                        'total' => $project->total(),
+                        'links' => [
+                            'first' => $project->url(1),
+                            'next' => $project->nextPageUrl(),
+                            'previous' => $project->previousPageUrl(),
+                            'last' => $project->url($project->lastPage()),
+                        ],
+                    ],
+                ];
+            } else {
+                $data = ProjectResource::collection($project);
+            }
+            return ApiResponse::sendResponse(200, '', $data);
+        }
+        return ApiResponse::sendResponse(200, 'no projects founded', []);
     }
 }

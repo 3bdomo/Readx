@@ -31,7 +31,9 @@ Route::controller(AuthController::class)->group(function(){
 // --------------------------------<Graduation Projects Routes>--------------------------------
 Route::controller(ProjectController::class)->middleware('auth:sanctum')
     ->group(function(){
-    Route::get('/GP_show', 'show');
+    Route::get('/show_GP', 'show');
     Route::post('/submit_GP', 'submit');
     Route::get('/get_GP', 'get_GP');
-});
+    Route::get('/search_GP', 'search_GP');
+
+    });
