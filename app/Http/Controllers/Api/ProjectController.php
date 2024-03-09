@@ -94,13 +94,13 @@ class ProjectController extends Controller
             // Check if the filter value is a valid column name
             if (in_array($filter, ['name', 'description', 'field', 'output', 'faculty', 'year', 'technologies', 'assistant_teacher_name', 'assistant_teacher_email', 'professor_name', 'professor_email'])) {
                 // If it's valid, use it as a column name in the query
-              $p=$projects->where($filter, 'like', '%' . $query . '%');
+              $projects->where($filter, 'like', '%' . $query . '%');
             }
         }
 
         // If no filter is specified, search in all columns
         if (!$filter) {
-          $p=$projects->where('name', 'like', '%' . $query . '%')
+          $projects->where('name', 'like', '%' . $query . '%')
                     ->orWhere('description', 'like', '%' . $query . '%')
                     ->orWhere('field', 'like', '%' . $query . '%')
                     ->orWhere('output', 'like', '%' . $query . '%')
@@ -115,7 +115,7 @@ class ProjectController extends Controller
         }
 
         // Get the results
-        $project = $p->paginate(5)?? 0;
+        $project = $projects->paginate(5)?? 0;
        $project->appends(['query' =>$query,'filter' =>$filter]);
 
         return $this->pagination($project);
