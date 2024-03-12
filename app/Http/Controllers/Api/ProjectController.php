@@ -68,7 +68,10 @@ class ProjectController extends Controller
     {
 
         $project=auth()->user()->project;
+
+
         if($project!=null){
+           // $project->append(['flag'=>true]);
             return ApiResponse::SendResponse(200,'',new ProjectResource($project));
         }
        else {

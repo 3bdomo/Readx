@@ -37,3 +37,4 @@ Route::controller(ProjectController::class)->middleware('auth:sanctum')
     Route::get('/search_GP', 'search_GP');
 
     });
+
