@@ -13,7 +13,7 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         //
-        \App\Models\Admin::factory()->create([
+        \App\Models\Admin\Admin::factory()->create([
              'username' => 'abdo',
              'password' => '12345678',
          ]);

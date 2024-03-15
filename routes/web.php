@@ -1,9 +1,6 @@
 <?php
 
-use App\Helpers\ApiResponse;
-use App\Http\Controllers\AdminController;
-use App\Models\Project;
-use App\Models\User;
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*

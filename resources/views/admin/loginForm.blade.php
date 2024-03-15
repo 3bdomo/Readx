@@ -1,3 +1,4 @@
+<link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <div class="wrapper fadeInDown">
     <div id="formContent">
         <!-- Tabs Titles -->
@@ -29,4 +30,4 @@
     </div>
 </div>
 
-<link href="{{ asset('css/style.css') }}" rel="stylesheet">
+
