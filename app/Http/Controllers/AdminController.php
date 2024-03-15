@@ -45,20 +45,8 @@ class AdminController extends Controller
     {
         // Check if admin is authenticated
         if (Auth::guard('admin')->check()) {
-            $admin = Auth::guard('admin')->user();
-
-            // Debugging: Check if the admin has an access token
-            $accessToken = $admin->currentAccessToken();
-            dd($accessToken); // Inspect the access token
-
-            // Check if the admin has an access token
-            if ($accessToken) {
-                // Debugging: Confirm that we reach this point
-                dd('Deleting token...');
-
-                // Delete the admin's current access token
-                $accessToken->delete();
-            }
+            // Revoke all tokens...
+            Auth::guard('admin')->user()->tokens()->delete();
         }
 
         // Perform logout actions (if any)

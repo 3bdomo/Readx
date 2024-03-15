@@ -1,28 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="./css/style.css">
-</head>
-<body>
-<div class="login-container">
-    <h2>Login</h2>
-    <form id="login-form" action="{{route('admin.login')}}" method="post">
-        @csrf
-        <div class="input-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required>
-        </div>
-        <div class="input-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
-        </div>
-        <button type="submit">Login</button>
-    </form>
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <h2 class="active"> Sign In </h2>
+
+
+        <!-- Icon -->
+        <div class="fadeIn first">
+            <img src="{{ asset('/logo.png') }}" id="icon" alt="User Icon"  />        </div>
+
+        <!-- Login Form -->
+        <form method="post" action="{{route('admin.login')}}">
+
+            @csrf
+            <input type="text" name="username" class="fadeIn second"  placeholder="user name">
+            @error('username')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+
+            <input type="password" name="password" class="fadeIn third" placeholder="password">
+            @error('password')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+            <input type="submit" class="fadeIn fourth" value="Log In">
+        </form>
+
+
+
+    </div>
 </div>
-{{--@dd(asset('/js.sipt'))--}}
-<script src="{{ asset('./js.script') }}"></script>
-</body>
-</html>
+
+<link href="{{ asset('css/style.css') }}" rel="stylesheet">

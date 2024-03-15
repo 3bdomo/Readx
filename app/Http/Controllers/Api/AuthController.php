@@ -85,7 +85,11 @@ class AuthController extends Controller
 
 
     public function logout(Request $request){
-    $request->user()->currentAccessToken()->delete();
+           // Check if user is authenticated
+            if (Auth::check()) {
+                // Revoke all tokens...
+                Auth::user()->tokens()->delete();
+            }
     return     ApiResponse::SendResponse(200,"logout successfully",null);
      }
 }

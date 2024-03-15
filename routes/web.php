@@ -18,12 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $p=User::where('project_id','=',8)->first();
-    if($p==null){
-        return 'null';
-    }
-
-   // return view('welcome');
+     return view('welcome');
 
 });
 
