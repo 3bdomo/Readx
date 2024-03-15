@@ -4,5 +4,6 @@
 
 
 
-    <button type="submit">Login</button>
+    <input type="submit" class="fadeIn fourth" value="Log out" align="center">
 </form>
+<link href="{{ asset('css/style.css') }}" rel="stylesheet">

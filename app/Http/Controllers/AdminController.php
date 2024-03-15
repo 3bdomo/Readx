@@ -47,12 +47,10 @@ class AdminController extends Controller
         if (Auth::guard('admin')->check()) {
             // Revoke all tokens...
             Auth::guard('admin')->user()->tokens()->delete();
+
         }
 
-        // Perform logout actions (if any)
-        // For example, you can invalidate the session or perform any other cleanup
-
-        return "Logout successfully";
+        return view('admin/loginForm');
     }
 
 
