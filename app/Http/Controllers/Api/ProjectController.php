@@ -84,10 +84,11 @@ class ProjectController extends Controller
 
     public function search_GP(Request $request): \Illuminate\Http\JsonResponse
     {
-
+        $columns_name=['name','description', 'field','status','output','year' ,
+            'used_technologies','Prof_name','Assistant_teacher_name','classification', 'faculty' ];
 
         // Get the results
-        $projects = $this->search(Project::class, $request) ?? 0;
+        $projects = $this->search(Project::class, $request,$columns_name) ?? 0;
 
         return $this->pagination($projects,ProjectResource::class);
     }

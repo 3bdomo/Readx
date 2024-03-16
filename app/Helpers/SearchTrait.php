@@ -6,7 +6,7 @@ use App\Models\Api\Project;
 
 trait SearchTrait
 {
-    public function search($model, $request)
+    public function search($model, $request, $columns_name)
     {
         // Retrieve the search query from the request
         $query = $request->input('query');
@@ -20,7 +20,7 @@ trait SearchTrait
         // If a filter is specified, order the results by the specified column
         if ($filter) {
             // Check if the filter value is a valid column name
-            if (in_array($filter, ['name', 'description', 'field', 'output', 'faculty', 'year', 'technologies', 'assistant_teacher_name', 'assistant_teacher_email', 'professor_name', 'professor_email'])) {
+            if (in_array($filter, $columns_name)) {
                 // If it's valid, use it as a column name in the query
                 $q->where($filter, 'like', '%' . $query . '%');
             }
@@ -28,17 +28,7 @@ trait SearchTrait
 
         // If no filter is specified, search in all columns
         if (!$filter) {
-            $q->where('name', 'like', '%' . $query . '%')
-                ->orWhere('description', 'like', '%' . $query . '%')
-                ->orWhere('field', 'like', '%' . $query . '%')
-                ->orWhere('output', 'like', '%' . $query . '%')
-                ->orWhere('faculty', 'like', '%' . $query . '%')
-                ->orWhere('year', 'like', '%' . $query . '%')
-                ->orWhere('technologies', 'like', '%' . $query . '%')
-                ->orWhere('assistant_teacher_name', 'like', '%' . $query . '%')
-                ->orWhere('assistant_teacher_email', 'like', '%' . $query . '%')
-                ->orWhere('professor_name', 'like', '%' . $query . '%')
-                ->orWhere('professor_email', 'like', '%' . $query . '%');
+            $q->whereAny($columns_name, 'like', '%' . $query . '%');
 
         }
         $res= $q->paginate(5);

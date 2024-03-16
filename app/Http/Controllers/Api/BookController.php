@@ -13,14 +13,15 @@ class BookController extends Controller
 {
     use  paginationTrait;
     use SearchTrait;
-    public function get_book(){
-        $books=Book::paginat(5);
+    public function get_books(){
+        $books=Book::paginate(5);
         return $this->pagination($books,BookResource::class);
     }
-public function search_book(Request $request){
-
+public function search_books(Request $request){
+    $columns_name=['name','author_name','publisher','publishing_year',
+        'edition','category','ISBN','description','rating','status','faculty'];
     // Get the results
-    $projects = $this->search(Book::class, $request) ?? 0;
+    $projects = $this->search(Book::class, $request,$columns_name) ?? 0;
 
     return $this->pagination($projects,BookResource::class);
     }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('name');
             $table->string('author_name');
             $table->string('publisher')->nullable();
             $table->string('publishing_year')->nullable();
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('ISBN')->nullable();
             $table->string('image')->nullable();
             $table->string('description')->nullable();
-            $table->float('rating',2)->nullable();
+            $table->float('rating',8,2)->nullable();
             $table->string('status')->default('available');
             $table->string('faculty')->default("FCI-Minia");
             $table->integer('pages_number')->unsigned()->nullable();

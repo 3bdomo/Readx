@@ -2,35 +2,35 @@
 
 namespace App\Helpers;
 
-use App\Http\Resources\ProjectResource;
+
 
 trait paginationTrait
 {
 
-    public function pagination($project,$resource): \Illuminate\Http\JsonResponse
+    public function pagination($items,$resource): \Illuminate\Http\JsonResponse
     {
-        if (count($project) > 0) {
-            if ($project->total() > $project->perPage()) {
+        if (count($items) > 0) {
+            if ($items->total() > $items->perPage()) {
                 $data = [
-                    'records' => $resource::collection($project),
+                    'records' => $resource::collection($items),
                     'pagination links' => [
-                        'current page' => $project->currentPage(),
-                        'per page' => $project->perPage(),
-                        'total' => $project->total(),
+                        'current page' => $items->currentPage(),
+                        'per page' => $items->perPage(),
+                        'total' => $items->total(),
                         'links' => [
-                            'first' => $project->url(1),
-                            'next' => $project->nextPageUrl(),
-                            'previous' => $project->previousPageUrl(),
-                            'last' => $project->url($project->lastPage()),
+                            'first' => $items->url(1),
+                            'next' => $items->nextPageUrl(),
+                            'previous' => $items->previousPageUrl(),
+                            'last' => $items->url($items->lastPage()),
                         ],
                     ],
                 ];
             } else {
-                $data = $resource::collection($project);
+                $data = $resource::collection($items);
             }
             return ApiResponse::sendResponse(200, '', $data);
         }
-        return ApiResponse::sendResponse(200, 'no projects founded', []);
+        return ApiResponse::sendResponse(200, 'no items founded', []);
     }
 
 }
