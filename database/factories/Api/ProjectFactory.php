@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Api;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,7 +21,6 @@ class ProjectFactory extends Factory
             'name' => fake()->name,
             'description' => fake()->msedge,
             'year' => fake()->year,
-
             'output' =>fake()->jobTitle,
             'technologies'=>'php,android,react',
             'Professor_name' => fake()->name,
