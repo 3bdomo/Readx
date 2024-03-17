@@ -31,6 +31,6 @@ Route::post('/admin/logout',[AdminController::class,'logout'])
 
 Route::get('/seed',function (){
     \Illuminate\Support\Facades\Artisan::call('storage:link') ;
-   \Illuminate\Support\Facades\Artisan::call('db:seed') ;
+   \Illuminate\Support\Facades\Artisan::call('db:seed --force') ;
    return "done";
 });
