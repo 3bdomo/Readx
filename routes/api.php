@@ -26,14 +26,14 @@ Route::controller(ProjectController::class)->middleware('auth:sanctum')
     });
 
 // --------------------------------<Books Routes>--------------------------------
-Route::controller(BookController::class)
+Route::controller(BookController::class)->middleware('auth:sanctum')
     ->group(function(){
         Route::get('/get_books', 'get_books');
         Route::get('/search_books', 'search_books');
     });
 
 // --------------------------------<Research Routes>--------------------------------
-Route::controller(ResearchController::class)
+Route::controller(ResearchController::class)->middleware('auth:sanctum')
     ->group(function(){
         Route::get('/get_research', 'get_research');
         Route::get('/search_research', 'search_research');
