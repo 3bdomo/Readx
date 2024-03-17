@@ -9,9 +9,7 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
     use HasFactory;
-    /**
-     * Seed the application's database.
-     */
+
     public function run(): void
     {
         \App\Models\Api\Project::factory(50)->create();

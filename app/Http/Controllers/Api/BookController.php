@@ -22,9 +22,9 @@ public function search_books(Request $request){
     $columns_name=['name','author_name','publisher','publishing_year',
         'edition','category','ISBN','description','rating','status','faculty'];
     // Get the results
-    $projects = $this->search(Book::class, $request,$columns_name) ?? 0;
+    $books = $this->search(Book::class, $request,$columns_name) ?? 0;
 
-    return $this->pagination($projects,BookResource::class);
+    return $this->pagination($books,BookResource::class);
     }
 
 }

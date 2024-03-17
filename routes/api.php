@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\ProjectController;
+use App\Http\Controllers\Api\ResearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,9 +25,16 @@ Route::controller(ProjectController::class)->middleware('auth:sanctum')
 
     });
 
-// --------------------------------<Graduation Projects Routes>--------------------------------
+// --------------------------------<Books Routes>--------------------------------
 Route::controller(BookController::class)
     ->group(function(){
         Route::get('/get_books', 'get_books');
         Route::get('/search_books', 'search_books');
+    });
+
+// --------------------------------<Research Routes>--------------------------------
+Route::controller(ResearchController::class)
+    ->group(function(){
+        Route::get('/get_research', 'get_research');
+        Route::get('/search_research', 'search_research');
     });

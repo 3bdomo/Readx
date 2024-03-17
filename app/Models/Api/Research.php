@@ -5,20 +5,19 @@ namespace App\Models\Api;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Book extends Model
+class Research extends Model
 {
     use HasFactory;
     protected $fillable = [
         'name',
-        'author_name',
-        'publisher',
+        'researcher_name',
+        'researcher_email',
         'publishing_year',
-        'edition',
-        'category',
-        'ISBN',
+        'field',
         'description',
-        'rating',
+        'faculty',
+        'the_supervisory_authority',
         'status',
-        'faculty'
+        'file'
     ];
 }
