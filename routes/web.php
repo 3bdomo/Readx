@@ -30,6 +30,7 @@ Route::post('/admin/logout',[AdminController::class,'logout'])
     ->middleware('auth:admin');
 
 Route::get('/seed',function (){
+    shell_exec('ls -l ../public');
     \Illuminate\Support\Facades\Artisan::call('storage:link') ;
    \Illuminate\Support\Facades\Artisan::call('db:seed --force') ;
    return "done";
