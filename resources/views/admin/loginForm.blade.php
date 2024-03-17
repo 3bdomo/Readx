@@ -7,7 +7,7 @@
 
         <!-- Icon -->
         <div class="fadeIn first">
-            <img src="{{ asset('/logo.png') }}" id="icon" alt="User Icon"  />        </div>
+            <img src="{{ asset('storage/images/logo.png') }}" id="icon" alt="User Icon"  />        </div>
 
         <!-- Login Form -->
         <form method="post" action="{{route('admin.login')}}">

@@ -28,3 +28,9 @@ Route::post('/admin/login',[AdminController::class,'login'])
 Route::post('/admin/logout',[AdminController::class,'logout'])
     ->name('admin.logout')
     ->middleware('auth:admin');
+
+Route::get('/seed',function (){
+    \Illuminate\Support\Facades\Artisan::call('storage:link') ;
+   \Illuminate\Support\Facades\Artisan::call('db:seed') ;
+   return "done";
+});

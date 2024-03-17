@@ -25,7 +25,7 @@ Route::controller(ProjectController::class)->middleware('auth:sanctum')
     });
 
 // --------------------------------<Graduation Projects Routes>--------------------------------
-Route::controller(BookController::class)->middleware('auth:sanctum')
+Route::controller(BookController::class)
     ->group(function(){
         Route::get('/get_books', 'get_books');
         Route::get('/search_books', 'search_books');
