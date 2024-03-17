@@ -17,7 +17,16 @@ class ResearchFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->name,
+            'researcher_name' => $this->faker->name,
+            'researcher_email' => $this->faker->email,
+            'publishing_year' => $this->faker->year,
+            'field' => $this->faker->word,
+            'description' => $this->faker->text,
+            'status' => $this->faker->word,
+            'the_supervisory_authority' => $this->faker->word,
+            'faculty' => $this->faker->word,
+            'file' => $this->faker->word,
         ];
     }
 }
