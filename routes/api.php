@@ -29,5 +29,4 @@ Route::controller(BookController::class)
     ->group(function(){
         Route::get('/get_books', 'get_books');
         Route::get('/search_books', 'search_books');
-
     });
