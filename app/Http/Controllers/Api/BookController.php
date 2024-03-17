@@ -18,6 +18,7 @@ class BookController extends Controller
         return $this->pagination($books,BookResource::class);
     }
 public function search_books(Request $request){
+
     $columns_name=['name','author_name','publisher','publishing_year',
         'edition','category','ISBN','description','rating','status','faculty'];
     // Get the results

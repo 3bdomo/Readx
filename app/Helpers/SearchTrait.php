@@ -9,10 +9,10 @@ trait SearchTrait
     public function search($model, $request, $columns_name)
     {
         // Retrieve the search query from the request
-        $query = $request->input('query');
+        $query = $request->input('query')??'';
 
         // Retrieve the filter value from the request
-        $filter = $request->input('filter');
+        $filter = $request->input('filter')??null;
 
         // Perform the search based on the query and filter
         $q = $model::query();
@@ -28,8 +28,9 @@ trait SearchTrait
 
         // If no filter is specified, search in all columns
         if (!$filter) {
-            $q->whereAny($columns_name, 'like', '%' . $query . '%');
-
+            foreach ($columns_name as $column) {
+                $q->orWhere($column, 'like', '%' . $query . '%');
+            }
         }
         $res= $q->paginate(5);
         $res->appends(['query' =>$query,'filter' =>$filter]);;
