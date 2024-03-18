@@ -17,8 +17,13 @@ class BookFactory extends Factory
     public function definition(): array
     {
 
-        $image = $this->faker->image('public/storage/images/BooksCovers', 300, 300, null, true);
-        $imageURL = str_replace('public/storage/images/BooksCovers/', '', $image);
+        $directory = 'public/storage/images/BooksCovers';
+        if (!file_exists($directory)) {
+            mkdir($directory, 0777, true);
+        }
+
+        $image = $this->faker->image($directory, 300, 300, null, true);
+       // $imageURL = str_replace($directory.'/', '', $image);
         return [
             'name' => $this->faker->domainName,
             'author_name' => $this->faker->name,
@@ -31,7 +36,7 @@ class BookFactory extends Factory
             'status' => $this->faker->randomElement(['available', 'unavailable']),
             'faculty' => $this->faker->word,
             'pages_number' => $this->faker->randomDigit,
-            'image' => $imageURL,
+            'image' => $image,
         ];
     }
 }
