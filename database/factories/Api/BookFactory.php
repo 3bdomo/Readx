@@ -23,7 +23,7 @@ class BookFactory extends Factory
         }
 
         $image = $this->faker->image($directory, 300, 300, null, true);
-        $imageURL = str_replace($directory.'/', '', $image);
+       // $imageURL = str_replace($directory.'/', '', $image);
         return [
             'name' => $this->faker->domainName,
             'author_name' => $this->faker->name,
@@ -36,7 +36,7 @@ class BookFactory extends Factory
             'status' => $this->faker->randomElement(['available', 'unavailable']),
             'faculty' => $this->faker->word,
             'pages_number' => $this->faker->randomDigit,
-            'image' => $imageURL,
+            'image' => $image,
         ];
     }
 }
