@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Api\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -85,7 +85,11 @@ class AuthController extends Controller
 
 
     public function logout(Request $request){
-    $request->user()->currentAccessToken()->delete();
+           // Check if user is authenticated
+            if (Auth::check()) {
+                // Revoke all tokens...
+                Auth::user()->tokens()->delete();
+            }
     return     ApiResponse::SendResponse(200,"logout successfully",null);
      }
 }

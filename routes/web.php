@@ -1,9 +1,6 @@
 <?php
 
-use App\Helpers\ApiResponse;
-use App\Http\Controllers\AdminController;
-use App\Models\Project;
-use App\Models\User;
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,12 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $p=User::where('project_id','=',8)->first();
-    if($p==null){
-        return 'null';
-    }
-
-   // return view('welcome');
+     return view('welcome');
 
 });
 
@@ -36,3 +28,10 @@ Route::post('/admin/login',[AdminController::class,'login'])
 Route::post('/admin/logout',[AdminController::class,'logout'])
     ->name('admin.logout')
     ->middleware('auth:admin');
+
+Route::get('/seed',function (){
+
+    \Illuminate\Support\Facades\Artisan::call('storage:link') ;
+    \Illuminate\Support\Facades\Artisan::call('db:seed --force') ;
+   return shell_exec('ls -l ../public');
+});
