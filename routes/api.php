@@ -26,6 +26,7 @@ Route::controller(AuthController::class)->group(function(){
     Route::post('/register', 'register');
     Route::post('/login', 'login');
     Route::post('/logout', 'logout')->middleware('auth:sanctum');
+    
 });
 
 // --------------------------------<Graduation Projects Routes>--------------------------------
@@ -37,3 +38,5 @@ Route::controller(ProjectController::class)->middleware('auth:sanctum')
     Route::get('/search_GP', 'search_GP');
 
     });
+// --------------------------------<Exams Routes>--------------------------------
+Route::get('exam-photos', 'ExamPhotoController@show');
