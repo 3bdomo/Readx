@@ -25,6 +25,22 @@ Route::controller(ProjectController::class)->middleware('auth:sanctum')
 
     });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // --------------------------------<Books Routes>--------------------------------
 Route::controller(BookController::class)->middleware('auth:sanctum')
     ->group(function(){
