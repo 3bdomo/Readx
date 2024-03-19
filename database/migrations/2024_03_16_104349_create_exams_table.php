@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
-
+            $table->string('subject_name');
             $table->string('image_path');
-            $table->integer('Year');
-            $table->enum('Type',['Final','Mid']);
-            $table->string('Subject');
-            $table->string('Supervisor');
-            $table->enum('grade',['Fist','Second','Third','Forth']);
+            $table->integer('year')->nullable();
+            $table->enum('type',['final','mid']);
+            $table->string('professor_name')->nullable();
+            $table->enum('grade',['First','Second','Third','Fourth']);
+            $table->timestamps();
 
         });
 
@@ -32,5 +32,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('exams');
     }
-    
+
 };
