@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description');
+            $table->longText('description');
             $table->string('field');
             $table->string('output')->nullable();
             $table->string('faculty')->default("FCI Minia");
             $table->year('year');
+            $table->string('documentation_path')->nullable();
             $table->enum('status',['accepted','rejected','pending']);
             $table->string('technologies')->nullable();
             $table->string('assistant_teacher_name')->nullable();

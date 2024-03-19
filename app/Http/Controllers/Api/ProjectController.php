@@ -30,7 +30,7 @@ class ProjectController extends Controller
     public function submit_GP(Request $request){
         $validator = Validator::make($request->all(),[
             'name' => ['required','string','max:255'],
-            'description' => ['required','string'],
+            'description' => ['required','string','min:100'],
             'output' => ['required','string'],
             'field' => ['required','string'],
         ]);

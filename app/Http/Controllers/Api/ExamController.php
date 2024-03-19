@@ -38,5 +38,5 @@ public function show_exams(Request $request)# where
 
     return $this->pagination($exams,ExamResource::class);
 
-}
+ }
 }
