@@ -2,7 +2,8 @@
 /node_modules
 /public/build
 /public/hot
-/public/storage
+/public/storage/
+!/public/storage/images/logo.png
 /storage/*.key
 /vendor
 .env
@@ -17,5 +18,5 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-
 .vercel
+

@@ -14,6 +14,7 @@ class AdminController extends Controller
 {
     //
     public function loginForm(){
+
         return view('admin/loginForm');
     }
     public function login(Request $request){
@@ -29,12 +30,12 @@ class AdminController extends Controller
             $admin = Auth::guard('admin')->user();
             Auth::guard('admin')->user()->tokens()->delete();//delete odl tokens
             $token =  $admin->createToken('MyAuthApp')->plainTextToken;
-            $accessToken = new PersonalAccessToken();
-            $accessToken->tokenable_id = $admin->id;
-            $accessToken->tokenable_type = Admin::class;
-            $accessToken->name = 'Token Name';
-            $accessToken->token = hash('sha256', $token); // Hash the token before saving (optional)
-            $accessToken->save();
+//            $accessToken = new PersonalAccessToken();
+//            $accessToken->tokenable_id = $admin->id;
+//            $accessToken->tokenable_type = Admin::class;
+//            $accessToken->name = 'Token Name';
+//            $accessToken->token = hash('sha256', $token); // Hash the token before saving (optional)
+//            $accessToken->save();
             return view('admin/logoutForm');
         } else {
             return back()->withErrors(['username' => 'Invalid credentials']);
@@ -47,7 +48,8 @@ class AdminController extends Controller
         // Check if admin is authenticated
         if (Auth::guard('admin')->check()) {
             // Revoke all tokens...
-            Auth::guard('admin')->user()->tokens()->delete();
+           // Auth::guard('admin')->user()->tokens()->delete();
+            Auth::guard('admin')->logout();
 
         }
 

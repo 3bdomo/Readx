@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
 
          \App\Models\Admin\Admin::factory()->create([
              'username' => 'abdo',
-             'password' => '123',
+             'password' => '$2y$12$dal88Cy6rcB3kSoqgjIEqu4qryH.cPIMA8kTGhRtvTAcANk99MqSu',
          ]);
         // \App\Models\Api\User::factory(10)->create();
 
