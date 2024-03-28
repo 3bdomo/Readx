@@ -1,4 +1,4 @@
-<link href="{{ asset('storage/style.css') }}" rel="stylesheet">
+<link href="{{ asset('style.css') }}" rel="stylesheet">
 <div class="wrapper fadeInDown">
     <div id="formContent">
         <!-- Tabs Titles -->
