@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Api\UserAuthController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\ExamController;
 use App\Http\Controllers\Api\ProjectController;
@@ -8,7 +9,7 @@ use App\Http\Controllers\Api\ResearchController;
 use Illuminate\Support\Facades\Route;
 
 // --------------------------------<Authentication Routes>--------------------------------
-Route::controller(AuthController::class)->group(function(){
+Route::controller(UserAuthController::class)->group(function(){
 
     Route::post('/register', 'register');
     Route::post('/login', 'login');
@@ -24,20 +25,6 @@ Route::controller(ProjectController::class)->middleware('auth:sanctum')
     Route::get('/search_GP', 'search_GP');
 
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // --------------------------------<Books Routes>--------------------------------
@@ -59,3 +46,6 @@ Route::controller(ExamController::class)->middleware('auth:sanctum')
     ->group(function(){
         Route::get('/show_exams', 'show_exams');
     });
+
+
+require __DIR__.'/AdminRoutes.php';

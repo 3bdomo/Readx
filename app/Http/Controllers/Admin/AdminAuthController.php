@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Admin;
 use Illuminate\Http\Request;
@@ -10,13 +11,13 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
 
 
-class AdminController extends Controller
+class AdminAuthController extends Controller
 {
     //
-    public function loginForm(){
-
-        return view('admin/loginForm');
-    }
+//    public function loginForm(){
+//
+//        return view('admin/loginForm');
+//    }
     public function login(Request $request){
         $validator=Validator::make($request->all(),
         [
@@ -24,7 +25,7 @@ class AdminController extends Controller
             'password'=>'required|string',
         ]);
         if($validator->fails()) {
-            return back()->withErrors(['username' => 'Invalid credentials']);
+            return ApiResponse::SendResponse(422,'validation error',$validator->errors());
         }
         if (Auth::guard('admin')->attempt(['username' => $request->username, 'password' => $request->password])) {
             $admin = Auth::guard('admin')->user();
@@ -36,9 +37,10 @@ class AdminController extends Controller
 //            $accessToken->name = 'Token Name';
 //            $accessToken->token = hash('sha256', $token); // Hash the token before saving (optional)
 //            $accessToken->save();
-            return view('admin/logoutForm');
+// return view('admin/logoutForm');
+            return ApiResponse::SendResponse(200, 'Login Successful', ['token' => $token]);
         } else {
-            return back()->withErrors(['username' => 'Invalid credentials']);
+            return ApiResponse::SendResponse(419, 'Login Failed','Invalid credentials');
         }
     }
 
@@ -48,12 +50,14 @@ class AdminController extends Controller
         // Check if admin is authenticated
         if (Auth::guard('admin')->check()) {
             // Revoke all tokens...
-           // Auth::guard('admin')->user()->tokens()->delete();
-            Auth::guard('admin')->logout();
-
+            Auth::guard('admin')->user()->tokens()->delete();
+          //  Auth::guard('admin')->logout();
+        return ApiResponse::SendResponse(200, 'Logout Successful', '');
         }
-
-        return view('admin/loginForm');
+        else
+        {
+            return ApiResponse::SendResponse(419, 'Logout Failed','Invalid credentials');
+        }
     }
 
 

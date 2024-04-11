@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
 
 
-class AuthController extends Controller
+class UserAuthController extends Controller
 {
     public function register(Request $request)
     {

@@ -5,8 +5,6 @@
     <input type="submit" class="fadeIn fourth" value="Log out" >
 </div>
 </form>
-
-<link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <style>
     body {
         background-color: #a8f8f8;

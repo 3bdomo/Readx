@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminAuthController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -9,28 +9,28 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::get('/', function () {
-     return view('welcome');
+   //  return view('welcome');
 
 });
 
 //-------------------------------------< Routes for admin auth>----------------------------------.
-Route::prefix('admin')->name('admin.')->controller(AdminController::class)->group(function () {
-
-    Route::get('/login', 'loginForm')
-        ->name('loginForm')->
-        middleware('guest:admin');
-
-    Route::post('/login', 'login')->name('login');
-
-    Route::post('/logout', 'logout')
-        ->name('logout')
-        ->middleware('auth:admin');
-
-    Route::get('/logout', function (){
-        return view('admin.logoutForm');
-    })->middleware('auth:admin')
-        ->name('get_logout');
-  });
+//Route::prefix('admin')->name('admin.')->controller(AdminAuthController::class)->group(function () {
+//
+//    Route::get('/login', 'loginForm')
+//        ->name('loginForm')->
+//        middleware('guest:admin');
+//
+//    Route::post('/login', 'login')->name('login');
+//
+//    Route::post('/logout', 'logout')
+//        ->name('logout')
+//        ->middleware('auth:admin');
+//
+//    Route::get('/logout', function (){
+//        return view('admin.logoutForm');
+//    })->middleware('auth:admin')
+//        ->name('get_logout');
+//  });
 
 
 
