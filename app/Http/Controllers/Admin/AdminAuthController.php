@@ -48,15 +48,15 @@ class AdminAuthController extends Controller
     public function logout(Request $request)
     {
         // Check if admin is authenticated
-        if (Auth::guard('admin')->check()) {
+        if (Auth::check()) {
             // Revoke all tokens...
-            Auth::guard('admin')->user()->tokens()->delete();
+            Auth::user()->tokens()->delete();
           //  Auth::guard('admin')->logout();
         return ApiResponse::SendResponse(200, 'Logout Successful', '');
         }
         else
         {
-            return ApiResponse::SendResponse(419, 'Logout Failed','Invalid credentials');
+            return ApiResponse::SendResponse(401, 'Logout Failed','Invalid credentials');
         }
     }
 

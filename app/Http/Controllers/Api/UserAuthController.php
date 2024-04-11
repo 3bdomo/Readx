@@ -89,7 +89,13 @@ class UserAuthController extends Controller
             if (Auth::check()) {
                 // Revoke all tokens...
                 Auth::user()->tokens()->delete();
+
+                return     ApiResponse::SendResponse(200,"logout successfully",null);
             }
-    return     ApiResponse::SendResponse(200,"logout successfully",null);
+            else{
+                return ApiResponse::SendResponse(401, "invalid credentials", null);
+
+            }
+
      }
 }
