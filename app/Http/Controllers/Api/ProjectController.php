@@ -33,6 +33,7 @@ class ProjectController extends Controller
             'description' => ['required','string','min:100'],
             'output' => ['required','string'],
             'field' => ['required','string'],
+
         ]);
         $user=auth::user();
         if($validator->fails()){
@@ -85,7 +86,7 @@ class ProjectController extends Controller
     public function search_GP(Request $request): \Illuminate\Http\JsonResponse
     {
         $columns_name=['name','description', 'field','status','output','year' ,
-            'used_technologies','Prof_name','Assistant_teacher_name','classification', 'faculty' ];
+            'technologies','professor_name','Assistant_teacher_name', 'faculty' ];
 
         // Get the results
         $projects = $this->search(Project::class, $request,$columns_name) ?? 0;
