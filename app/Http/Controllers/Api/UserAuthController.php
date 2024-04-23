@@ -68,10 +68,12 @@ class UserAuthController extends Controller
             return ApiResponse::SendResponse(422,'validation error',$validator->errors());
 
         }
-      if(Auth::attempt(['email'=>$request->email, 'password'=>$request->password])) {
-          $user = Auth::user();
+        $user = User::where('email', $request->email)->first();
 
-          Auth::user()->tokens()->delete();//delete odl tokens
+        if ($user && Hash::check($request->password, $user->password)) {
+
+
+         $user->tokens()->delete();//delete odl tokens
           $data['token'] = $user->createToken('user_token')->plainTextToken;
           $data['name'] = $user->first_name;
           $data['ID'] = $user->id;

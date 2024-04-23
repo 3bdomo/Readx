@@ -40,9 +40,12 @@ class ProjectController extends Controller
             return ApiResponse::SendResponse(422,"Validation failed",$validator->errors());
         }
 
-
-        if($user->project_id!=null){
-            return ApiResponse::SendResponse(200,"there is a registered project for this user ",'');
+        $project=Project::find($user->project_id)->first();
+        if($user->project_id!=null&&$project){
+            if(($project->status=='pending'||$project->status=='accepted')){
+                return ApiResponse::SendResponse(422,"You have already submitted a project",'');
+            }
+         //   return ApiResponse::SendResponse(200,"there is a registered project for this user ",'');
 
         }
 

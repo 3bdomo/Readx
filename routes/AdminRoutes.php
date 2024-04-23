@@ -11,7 +11,7 @@ Route::controller(AdminAuthController::class)->group(function(){
 
 });
 //-----------------------------------<Projects Routes>---------------------------------------
-Route::controller(ProjectController::class)->group(function (){
+Route::controller(ProjectController::class)->middleware('auth:admin')->group(function (){
     Route::post('/admin/upload_project', 'upload_project');
     Route::get('/admin/get_all_projects', 'get_all_projects');
     Route::get('/admin/search_GP', 'search_GP');
@@ -26,5 +26,5 @@ Route::controller(ProjectController::class)->group(function (){
     Route::get('/admin/get_pending_projects', 'get_pending_projects');
 
 
-})->middleware('auth:sanctum');
+});
 

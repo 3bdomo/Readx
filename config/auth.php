@@ -11,29 +11,10 @@ return [
     | reset options for your application. You may change these defaults
     | as required, but they're a perfect start for most applications.
     |
-    */
-    /*Admin
-     *
-    'providers' => [
-        'admins' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Admin\Admin::class,
-        ],
-    ],
 
-    'guards' => [
-        'admin' => [
-            'driver' => 'session',
-            'provider' => 'admins',
-        ],
-    ],
-*/
-    'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
-    ],
 
     /*
+     *
     |--------------------------------------------------------------------------
     | Authentication Guards
     |--------------------------------------------------------------------------
@@ -50,17 +31,26 @@ return [
     |
     */
 
+
+    'defaults' => [
+        'guard' => 'web',
+        'passwords' => 'users',
+    ],
+
     'guards' => [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'user' => [
+            'driver' => 'sanctum',
+            'provider' => 'users',
+        ],
         'admin' => [
-            'driver' => 'session',
+            'driver' => 'sanctum',
             'provider' => 'admins',
         ],
     ],
-
     /*
     |--------------------------------------------------------------------------
     | User Providers

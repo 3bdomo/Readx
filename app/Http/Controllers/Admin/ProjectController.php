@@ -54,12 +54,12 @@ class ProjectController extends Controller
     {
         // Validate the incoming request data
         $validator = Validator::make($request->all(), [
-            'name'        => ['sometimes', 'required', 'string', 'max:255'],
-            'description' => ['sometimes', 'required', 'string', 'min:100'],
-            'output'      => ['sometimes', 'required', 'string'],
-            'field'       => ['sometimes', 'required', 'string'],
-            'technologies'=> ['sometimes', 'required', 'string'],
-            'status'      => ['sometimes','required', 'string', 'in:pending,accepted,rejected'], // Example of possible statuses
+            'name'        => ['sometimes', 'string', 'max:255'],
+            'description' => ['sometimes', 'string', 'min:100'],
+            'output'      => ['sometimes', 'string'],
+            'field'       => ['sometimes', 'string'],
+            'technologies'=> ['sometimes', 'string'],
+            'status'      => ['sometimes', 'string', 'in:pending,accepted,rejected'], // Example of possible statuses
         ]);
 
         if ($validator->fails()) {
@@ -74,12 +74,12 @@ class ProjectController extends Controller
 
         // Update project details
         $project->update([
-            'name'        => $request->name,
-            'description' => $request->description,
-            'output'      => $request->output,
-            'field'       => $request->field,
-            'technologies'=> $request->technologies,
-            'status'      => $request->status, // Assuming you are updating the status as well
+            'name'        => $request->name ?? $project->name,
+            'description' => $request->description ?? $project->description,
+            'output'      => $request->output ?? $project->output,
+            'field'       => $request->field ?? $project->field,
+            'technologies'=> $request->technologies ?? $project->technologies,
+            'status'      => $request->status ?? $project->status,
         ]);
 
         // Optionally, update the year if that's required
