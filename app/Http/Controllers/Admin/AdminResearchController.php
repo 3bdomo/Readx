@@ -24,11 +24,11 @@ class AdminResearchController extends Controller
             'researcher_name'=>['required','string',],
             'field'=>['required','string'],
             'researcher_email'=>['sometimes','email'],
-            'faculty'=>['required','string'],
+            'faculty'=>['sometimes','string'],
             'the_supervisory_authority'=>['required','string'],
             'description'=>['required','string'],
             'publishing_year'=>['required','string'],
-            'status'=>['required','string'],
+            'status'=>['sometimes','string'],
             'file'=>['sometimes','file'],
         ]);
         if($validator->fails()){
@@ -45,6 +45,7 @@ $research=Research::create([
             'description'=>$request->description,
             'publishing_year'=>$request->publishing_year,
             'status'=>$request->status,
+            'file'=>$request->file,
         ]);
 
         if($request->hasFile('file')){
@@ -80,7 +81,18 @@ $research=Research::create([
         if(!$research){
             return ApiResponse::SendResponse(404,"Research not found",'');
         }
-        $research->update($request->all());
+        $research->update([
+            'name'=>$request->name ?? $research->name,
+            'researcher_name'=>$request->researcher_name ?? $research->researcher_name,
+            'field'=>$request->field ?? $research->field,
+            'researcher_email'=>$request->researcher_email ?? $research->researcher_email,
+            'faculty'=>$request->faculty ?? $research->faculty,
+            'the_supervisory_authority'=>$request->the_supervisory_authority ?? $research->the_supervisory_authority,
+            'description'=>$request->description ?? $research->description,
+            'publishing_year'=>$request->publishing_year ?? $research->publishing_year,
+            'status'=>$request->status ?? $research->status,
+            'file'=>$request->file ?? $research->file,
+        ]);
         if($request->hasFile('file')){
             $file=$request->file('file');
             $file_name=$file->getClientOriginalName();
@@ -118,7 +130,7 @@ $research=Research::create([
     }
     public function show_all_researches(Request $request)
     {
-        $researches = $this->pagination(Research::class, $request);
+        $researches = Research::latest()->paginate(10);
         return $this->pagination($researches,ResearchResource::class);
     }
 

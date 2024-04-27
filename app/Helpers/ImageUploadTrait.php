@@ -22,6 +22,6 @@ trait ImageUploadTrait
             $image->move(public_path($image_path), $image_name);
             return $image_path . $image_name;
         }
-        return 'nu';  // Return null if no image is uploaded
+        return 'null';  // Return null if no image is uploaded
     }
 }

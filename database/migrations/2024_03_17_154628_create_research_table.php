@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('researcher_name');
-            $table->string('researcher_email');
+            $table->string('researcher_email')->nullable();
             $table->string('publishing_year');
             $table->string('field');
             $table->string('description');
-            $table->string('status');
+            $table->string('status')->nullable();
             $table->string('the_supervisory_authority');
-            $table->string('faculty');
+            $table->string('faculty')->nullable();
             $table->string('file')->nullable();
             $table->timestamps();
         });

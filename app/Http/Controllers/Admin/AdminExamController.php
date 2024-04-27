@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
-
 use App\Helpers\ApiResponse;
 use App\Helpers\ImageUploadTrait;
 use App\Helpers\paginationTrait;
@@ -21,28 +19,27 @@ class AdminExamController extends Controller
     public function upload_exam(Request $request)
     {
         //upload a exam
-        $validator=Validator::make($request->all(),[
-            'name'=>['required','string','max:255'],
-            'subject_name'=>['required','string',],
-            'year'=>['required','integer'],
-            'image_path'=>['sometimes','image'],
-            'type'=>['required','string'],
-            'professor_name'=>['string'],
-            'grade'=>['required','string'],
+        $validator = Validator::make($request->all(), [
+            'subject_name' => ['required', 'string'],
+            'year'        => ['sometimes', 'integer'],
+            'image'  => ['required', 'file'],
+            'type'        => ['required', 'string'],
+            'professor_name' => ['sometimes', 'string'],
+            'grade'       => ['required', 'string'],
         ]);
         if($validator->fails()){
             return ApiResponse::SendResponse(422,"Validation failed",$validator->errors());
         }
 
         $exam=Exam::create([
-            'name'=>$request->name,
             'subject_name'=>$request->subject_name,
             'year'=>$request->year,
             'type'=>$request->type,
             'professor_name'=>$request->professor_name,
             'grade'=>$request->grade,
+            'image'=>$request->image,
         ]);
-        $image_name= $this->handleImageUpload($request, 'storage/images/ExamsCovers/');
+        $image_name= $this->handleImageUpload($request, 'storage/images/Exams/');
         $exam->image=$image_name;
         $exam->save();
         return ApiResponse::SendResponse(201,"Exam uploaded successfully",new ExamResource($exam));
@@ -51,7 +48,6 @@ class AdminExamController extends Controller
     {
         // Validate the incoming request data
         $validator = Validator::make($request->all(), [
-            'name'        => ['sometimes', 'string', 'max:255'],
             'subject_name' => ['sometimes', 'string'],
             'year'        => ['sometimes', 'integer'],
             'image_path'  => ['sometimes', 'image'],
@@ -66,7 +62,17 @@ class AdminExamController extends Controller
         if (!$exam) {
             return ApiResponse::SendResponse(404, "Exam not found", '');
         }
-        $exam->update($request->all());
+        $exam->update([
+            'subject_name' => $request->subject_name ?? $exam->subject_name,
+            'year'        => $request->year ?? $exam->year,
+            'type'        => $request->type ?? $exam->type,
+            'professor_name' => $request->professor_name ?? $exam->professor_name,
+            'grade'       => $request->grade ?? $exam->grade,
+            'image'  => $request->image ?? $exam->image,
+        ]);
+        $image_name= $this->handleImageUpload($request, 'storage/images/Exams/');
+        $exam->image_path=$image_name;
+        $exam->save();
         return ApiResponse::SendResponse(200, "Exam updated successfully", new ExamResource($exam));
     }
     public function delete_exam($exam_id)
@@ -78,7 +84,7 @@ class AdminExamController extends Controller
         $exam->delete();
         return ApiResponse::SendResponse(200, "Exam deleted successfully", '');
     }
-    public function show_exam($exam_id)
+    public function show_exam($exam_id): \Illuminate\Http\JsonResponse
     {
         $exam = Exam::find($exam_id);
         if (!$exam) {
@@ -86,16 +92,16 @@ class AdminExamController extends Controller
         }
         return ApiResponse::SendResponse(200, "Exam found", new ExamResource($exam));
     }
-    public function search_exam(Request $request)
+    public function search_exam(Request $request): \Illuminate\Http\JsonResponse
     {
-        $colmuns = ['name', 'subject_name', 'year', 'type', 'professor_name', 'grade'];
-        $exams = $this->search(Exam::class, $request,$colmuns);
+        $columns = [ 'subject_name', 'year', 'type', 'professor_name', 'grade'];
+        $exams = $this->search(Exam::class, $request,$columns);
         return ApiResponse::SendResponse(200, "Exams found", ExamResource::collection($exams));
     }
 
-    public function show_all_exams(Request $request)
+    public function get_all_exams(Request $request): \Illuminate\Http\JsonResponse
     {
-        $exams = $this->pagination(Exam::class, $request);
-        return ApiResponse::SendResponse(200, "Exams found", ExamResource::collection($exams));
+        $exams = Exam::latest()->paginate(10);
+        return $this->pagination($exams,ExamResource::class);
     }
 }
