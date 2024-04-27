@@ -9,9 +9,9 @@ trait ImageUploadTrait
 {
     public function handleImageUpload(Request $request,$image_path)
     {
-        $directory = 'public/storage/images/BooksCovers';
-        if (!file_exists($directory)) {
-            mkdir($directory, 0777, true);
+
+        if (!file_exists($image_path)) {
+            mkdir($image_path, 0777, true);
         }
 
         if ($request->hasFile('image')) {
