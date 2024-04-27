@@ -1,7 +1,9 @@
 <?php
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminBookController;
+use App\Http\Controllers\Admin\AdminExamController;
 use App\Http\Controllers\Admin\AdminProjectController;
+use App\Http\Controllers\Admin\AdminResearchController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -38,4 +40,24 @@ Route::controller(AdminBookController::class)->middleware('auth:admin')->group(f
     Route::get('/admin/show_book/{book_id}', 'show_book');
 
 
+});
+
+// --------------------------------<Exams Routes>--------------------------------
+Route::controller(AdminExamController::class)->middleware('auth:admin')->group(function () {
+    Route::post('/admin/upload_exam', 'upload_exam');
+    Route::post('/admin/update_exam/{exam_id}', 'update_exam');
+    Route::post('/admin/delete_exam/{exam_id}', 'delete_exam');
+    Route::get('/admin/get_all_exams', 'get_all_exams');
+    Route::get('/admin/search_exam', 'search_exam');
+    Route::get('/admin/show_exam/{exam_id}', 'show_exam');
+});
+
+// --------------------------------<Researches Routes>--------------------------------
+Route::controller(AdminResearchController::class)->middleware('auth:admin')->group(function () {
+    Route::post('/admin/upload_research', 'upload_research');
+    Route::post('/admin/update_research/{research_id}', 'update_research');
+    Route::post('/admin/delete_research/{research_id}', 'delete_research');
+    Route::get('/admin/get_all_researches', 'get_all_researches');
+    Route::get('/admin/search_research', 'search_research');
+    Route::get('/admin/show_research/{research_id}', 'show_research');
 });
