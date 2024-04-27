@@ -12,7 +12,7 @@ trait ImageUploadTrait
         if ($request->hasFile('image')) {
             $image = $request->image;
             $image_name = time() . '_' .str_replace(' ', '_',  $image->getClientOriginalName());
-            $image->copy(env('IMAGE_STORAGE_PATH', public_path('storage/images/BooksCovers')), $image_name);
+           // $image->copy(env('IMAGE_STORAGE_PATH', public_path('storage/images/BooksCovers')), $image_name);
 
             $image->move(public_path($image_path), $image_name);
             return $image_path . $image_name;
