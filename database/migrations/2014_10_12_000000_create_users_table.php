@@ -22,12 +22,7 @@ return new class extends Migration
             $table->string('faculty')->default('FCI-Minia');
             $table->boolean('eligible_to_registration')->default(false);
             $table->boolean('registration_status')->default(false);
-           // $table->foreignId('project_id')->nullable()->constrained()->onDelete('cascade');
-//            $table->foreignId('project_id')->nullable()
-//                ->constrained('projects')
-//                ->onUpdate('cascade')
-//                ->onDelete('cascade');
-
+            $table->enum('department',['CS','IS','BIO','general']);
             $table->unsignedInteger('app_level')->default(0);
             $table->unsignedInteger('points')->default(0);
             $table->rememberToken();

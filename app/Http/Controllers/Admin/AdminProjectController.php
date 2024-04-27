@@ -12,7 +12,7 @@ use App\Models\Api\User;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 
-class ProjectController extends Controller
+class AdminProjectController extends Controller
 {
     use  paginationTrait;
     use SearchTrait;

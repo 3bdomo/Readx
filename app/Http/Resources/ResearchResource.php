@@ -15,6 +15,7 @@ class ResearchResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id'=>$this->id,
             'name'=>$this->name,
             'researcher_name'=>$this->researcher_name,
             'researcher_email'=>$this->researcher_email,

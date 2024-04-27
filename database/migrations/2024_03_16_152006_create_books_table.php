@@ -23,11 +23,9 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('description')->nullable();
             $table->float('rating',8,2)->nullable();
-            $table->string('status')->default('available');
+            $table->enum('status',['available','unavailable'])->default('available');
             $table->string('faculty')->default("FCI-Minia");
             $table->integer('pages_number')->unsigned()->nullable();
-
-
             $table->timestamps();
         });
     }

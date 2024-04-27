@@ -15,6 +15,7 @@ class ExamResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'=> $this->id,
             'subject_name'=> $this->subject_name,
             'image_path'=> $this->image_path,
             'year'=> $this->year,
