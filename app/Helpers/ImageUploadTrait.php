@@ -10,9 +10,7 @@ trait ImageUploadTrait
     public function handleImageUpload(Request $request,$image_path)
     {
 
-        if (!file_exists($image_path)) {
-            mkdir($image_path, 0777, true);
-        }
+
 
         if ($request->hasFile('image')) {
             $image = $request->image;
