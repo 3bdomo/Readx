@@ -64,7 +64,7 @@ class AdminExamController extends Controller
 
        // $image_name= $this->handleImageUpload($request, 'storage/images/Exams/');
         if($request->hasFile('image')){
-            $image_name= $this->handleImageUpload($request, 'public/storage/images/Exams/');
+            $image_name= $this->handleImageUpload($request, 'storage/images/Exams/');
             $exam->image=$image_name;
         }
        $exam->subject_name=$request->subject_name??$exam->subject_name;
