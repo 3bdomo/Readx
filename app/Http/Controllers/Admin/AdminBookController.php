@@ -108,7 +108,7 @@ class AdminBookController extends Controller
         ]
        );
         if($request->hasFile('image')){
-        $image_name= $this->handleImageUpload($request, 'storage/images/BooksCovers/');
+        $image_name= $this->handleImageUpload($request, 'storage/');
         $book->image=$image_name;
         $book->save();
             //dd($image_name);
