@@ -22,7 +22,7 @@ class AdminExamController extends Controller
         $validator = Validator::make($request->all(), [
             'subject_name' => ['required', 'string'],
             'year'        => ['sometimes', 'integer'],
-            'image'  => ['required', 'file'],
+            'image'  => ['required', 'image'],
             'type'        => ['required', 'string'],
             'professor_name' => ['sometimes', 'string'],
             'grade'       => ['required', 'string'],
@@ -30,18 +30,17 @@ class AdminExamController extends Controller
         if($validator->fails()){
             return ApiResponse::SendResponse(422,"Validation failed",$validator->errors());
         }
-
-        $exam=Exam::create([
-            'subject_name'=>$request->subject_name,
-            'year'=>$request->year,
-            'type'=>$request->type,
-            'professor_name'=>$request->professor_name,
-            'grade'=>$request->grade,
-            'image'=>$request->image,
-        ]);
         $image_name= $this->handleImageUpload($request, 'storage/images/Exams/');
-        $exam->image=$image_name;
+        $request->image=$image_name;
+        $exam=new Exam;
+        $exam->subject_name=$request->subject_name;
+        $exam->year=$request->year;
+        $exam->image=$request->image;
+        $exam->type=$request->type;
+        $exam->professor_name=$request->professor_name;
+        $exam->grade=$request->grade;
         $exam->save();
+
         return ApiResponse::SendResponse(201,"Exam uploaded successfully",new ExamResource($exam));
     }
     public function update_exam(Request $request, $exam_id)
@@ -50,7 +49,7 @@ class AdminExamController extends Controller
         $validator = Validator::make($request->all(), [
             'subject_name' => ['sometimes', 'string'],
             'year'        => ['sometimes', 'integer'],
-            'image_path'  => ['sometimes', 'image'],
+            'image'  => ['sometimes', 'image'],
             'type'        => ['sometimes', 'string'],
             'professor_name' => ['sometimes', 'string'],
             'grade'       => ['sometimes', 'string'],
@@ -62,16 +61,17 @@ class AdminExamController extends Controller
         if (!$exam) {
             return ApiResponse::SendResponse(404, "Exam not found", '');
         }
-        $exam->update([
-            'subject_name' => $request->subject_name ?? $exam->subject_name,
-            'year'        => $request->year ?? $exam->year,
-            'type'        => $request->type ?? $exam->type,
-            'professor_name' => $request->professor_name ?? $exam->professor_name,
-            'grade'       => $request->grade ?? $exam->grade,
-            'image'  => $request->image ?? $exam->image,
-        ]);
-        $image_name= $this->handleImageUpload($request, 'storage/images/Exams/');
-        $exam->image_path=$image_name;
+
+       // $image_name= $this->handleImageUpload($request, 'storage/images/Exams/');
+        if($request->hasFile('image')){
+            $image_name= $this->handleImageUpload($request, 'public/storage/images/Exams/');
+            $exam->image=$image_name;
+        }
+       $exam->subject_name=$request->subject_name??$exam->subject_name;
+        $exam->year=$request->year??$exam->year;
+        $exam->type=$request->type??$exam->type;
+        $exam->professor_name=$request->professor_name??$exam->professor_name;
+        $exam->grade=$request->grade??$exam->grade;
         $exam->save();
         return ApiResponse::SendResponse(200, "Exam updated successfully", new ExamResource($exam));
     }

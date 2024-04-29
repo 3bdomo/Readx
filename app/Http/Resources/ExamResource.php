@@ -17,7 +17,7 @@ class ExamResource extends JsonResource
         return [
             'id'=> $this->id,
             'subject_name'=> $this->subject_name,
-            'image_path'=> $this->image_path,
+            'image'=> $this->image,
             'year'=> $this->year,
             'type'=> $this->type,
             'professor_name'=> $this->professor_name,

@@ -107,13 +107,13 @@ class AdminBookController extends Controller
 
         ]
        );
-       // if($request->has('image')){
-        $image_name= $this->handleImageUpload($request, 'storage/images/BooksCovers/');
+        if($request->hasFile('image')){
+        $image_name= $this->handleImageUpload($request, 'public/storage/images/BooksCovers/');
         $book->image=$image_name;
         $book->save();
-            dd($image_name);
-            $book->save();
-       // }
+            //dd($image_name);
+
+       }
         return ApiResponse::SendResponse(200,"Book updated successfully",new BookResource($book));
 
     }

@@ -45,7 +45,6 @@ $research=Research::create([
             'description'=>$request->description,
             'publishing_year'=>$request->publishing_year,
             'status'=>$request->status,
-            'file'=>$request->file,
         ]);
 
         if($request->hasFile('file')){
@@ -91,7 +90,6 @@ $research=Research::create([
             'description'=>$request->description ?? $research->description,
             'publishing_year'=>$request->publishing_year ?? $research->publishing_year,
             'status'=>$request->status ?? $research->status,
-            'file'=>$request->file ?? $research->file,
         ]);
         if($request->hasFile('file')){
             $file=$request->file('file');
