@@ -54,7 +54,7 @@ class AdminBookController extends Controller
             'faculty'=>$request->faculty,
             'pages_number'=>$request->pages_number,
         ]);
-        $image_name= $this->handleImageUpload($request, 'storage/');
+        $image_name= $this->handleImageUpload($request, '/');
         $book->image=$image_name;
         $book->save();
         return ApiResponse::SendResponse(201,"Book uploaded successfully",new BookResource($book));
