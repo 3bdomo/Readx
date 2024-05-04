@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ExamResource;
 use App\Models\Api\Exam;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AdminExamController extends Controller
@@ -30,7 +31,7 @@ class AdminExamController extends Controller
         if($validator->fails()){
             return ApiResponse::SendResponse(422,"Validation failed",$validator->errors());
         }
-        $image_name= $this->handleImageUpload($request, 'storage/images/Exams/');
+        $image_name= $this->handleImageUpload($request, '/images/Exams/');
         $request->image=$image_name;
         $exam=new Exam;
         $exam->subject_name=$request->subject_name;
@@ -64,7 +65,7 @@ class AdminExamController extends Controller
 
        // $image_name= $this->handleImageUpload($request, 'storage/images/Exams/');
         if($request->hasFile('image')){
-            $image_name= $this->handleImageUpload($request, 'storage/images/Exams/');
+            $image_name= $this->handleImageUpload($request, '/images/Exams/');
             $exam->image=$image_name;
         }
        $exam->subject_name=$request->subject_name??$exam->subject_name;
@@ -78,6 +79,7 @@ class AdminExamController extends Controller
     public function delete_exam($exam_id)
     {
         $exam = Exam::find($exam_id);
+       // Storage::disk('public')->delete($exam->image);
         if (!$exam) {
             return ApiResponse::SendResponse(404, "Exam not found", '');
         }

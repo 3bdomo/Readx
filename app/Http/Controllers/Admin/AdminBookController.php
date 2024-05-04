@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\BookResource;
 use App\Models\Api\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AdminBookController extends Controller
@@ -54,7 +55,7 @@ class AdminBookController extends Controller
             'faculty'=>$request->faculty,
             'pages_number'=>$request->pages_number,
         ]);
-        $image_name= $this->handleImageUpload($request, '/');
+        $image_name= $this->handleImageUpload($request, '/images/BooksCovers');
         $book->image=$image_name;
         $book->save();
         return ApiResponse::SendResponse(201,"Book uploaded successfully",new BookResource($book));
@@ -108,11 +109,11 @@ class AdminBookController extends Controller
         ]
        );
         if($request->hasFile('image')){
-        $image_name= $this->handleImageUpload($request, 'storage/');
+
+        Storage::disk('public')->delete('public'.$book->image);
+        $image_name= $this->handleImageUpload($request, '/images/BooksCovers');
         $book->image=$image_name;
         $book->save();
-            //dd($image_name);
-
        }
         return ApiResponse::SendResponse(200,"Book updated successfully",new BookResource($book));
 

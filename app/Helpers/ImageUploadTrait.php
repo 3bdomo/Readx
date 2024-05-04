@@ -12,18 +12,12 @@ trait ImageUploadTrait
 
         if($request->hasFile('image')){
             $image = $request->image;
-            $path=$image->storeAs('/images/BooksCovers',time() . '_' .str_replace(' ', '_',  $image->getClientOriginalName()),[
+            $path=$image->storeAs($image_path,time() . '_' .str_replace(' ', '_',  $image->getClientOriginalName()),[
                 'disk'=>'public']);
-            //dd($path);
             return '/storage/'.$path;
         }
 
-        // if ($request->hasFile('image')) {
-        //     $image = $request->image;
-        //     $image_name = time() . '_' .str_replace(' ', '_',  $image->getClientOriginalName());
-        //     $image->move(public_path($image_path), $image_name);
-        //     return $image_path . $image_name;
-        // }
+
         return 'nulll';  // Return null if no image is uploaded
     }
 }

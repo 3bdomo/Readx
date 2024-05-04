@@ -28,6 +28,10 @@ return new class extends Migration
             $table->integer('pages_number')->unsigned()->nullable();
             $table->timestamps();
         });
+
+        if(env('APP_ENV')!='local'){
+            \App\Models\Api\Book::factory(20)->create();
+        }
     }
 
     /**
