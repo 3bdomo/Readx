@@ -7,15 +7,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ExamResource;
 use App\Models\Api\Exam;
 use Illuminate\Http\Request;
-
+use App\Helpers\SearchTrait;
 
 class ExamController extends Controller
 {
     use paginationTrait;
+    use searchTrait;
 public function show_exams(Request $request)# where
 {
-    $books=Exam::paginate(5);
-    return $this->pagination($books,ExamResource::class);
+    $exams=Exam::paginate(5);
+    return $this->pagination($exams,ExamResource::class);
 
  }
 
@@ -24,6 +25,6 @@ public function show_exams(Request $request)# where
     {
         $columns = [ 'subject_name', 'year', 'type', 'professor_name', 'grade'];
         $exams = $this->search(Exam::class, $request,$columns);
-        return ApiResponse::SendResponse(200, "Exams found", ExamResource::collection($exams));
+        return $this->pagination($exams,ExamResource::class);
     }
 }

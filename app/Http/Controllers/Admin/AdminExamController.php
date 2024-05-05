@@ -98,7 +98,7 @@ class AdminExamController extends Controller
     {
         $columns = [ 'subject_name', 'year', 'type', 'professor_name', 'grade'];
         $exams = $this->search(Exam::class, $request,$columns);
-        return ApiResponse::SendResponse(200, "Exams found", ExamResource::collection($exams));
+        return $this->pagination($exams,ExamResource::class);
     }
 
     public function get_all_exams(Request $request): \Illuminate\Http\JsonResponse
