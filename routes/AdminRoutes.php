@@ -57,7 +57,7 @@ Route::controller(AdminResearchController::class)->middleware('auth:admin')->gro
     Route::post('/admin/upload_research', 'upload_research');
     Route::post('/admin/update_research/{research_id}', 'update_research');
     Route::post('/admin/delete_research/{research_id}', 'delete_research');
-    Route::get('/admin/get_all_researches', 'get_all_researches');
+    Route::get('/admin/get_all_researches', 'show_all_researches');
     Route::get('/admin/search_research', 'search_research');
     Route::get('/admin/show_research/{research_id}', 'show_research');
 });

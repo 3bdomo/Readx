@@ -18,6 +18,6 @@ trait ImageUploadTrait
         }
 
 
-        return 'nulll';  // Return null if no image is uploaded
+        return 'null';  // Return null if no image is uploaded
     }
 }
