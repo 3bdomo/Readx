@@ -45,6 +45,7 @@ Route::controller(ResearchController::class)->middleware('auth:sanctum')
 Route::controller(ExamController::class)->middleware('auth:sanctum')
     ->group(function(){
         Route::get('/show_exams', 'show_exams');
+        Route::get('search_exam','search_exam');
     });
 
 
