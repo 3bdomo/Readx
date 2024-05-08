@@ -22,7 +22,7 @@ class ExamFactory extends Factory
         $image = $this->faker->image($directory, 300, 300, null, true);
         return [
             'subject_name' => $this->faker->word,
-            'image_path' =>$image,
+            'image' =>$image,
             'year' => $this->faker->year,
             'type' => 'final',
             'professor_name' => $this->faker->name,
