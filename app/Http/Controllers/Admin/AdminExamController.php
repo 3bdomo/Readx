@@ -65,6 +65,7 @@ class AdminExamController extends Controller
 
        // $image_name= $this->handleImageUpload($request, 'storage/images/Exams/');
         if($request->hasFile('image')){
+            Storage::disk('public')->delete($exam->image);
             $image_name= $this->handleImageUpload($request, '/images/Exams/');
             $exam->image=$image_name;
         }
@@ -79,7 +80,7 @@ class AdminExamController extends Controller
     public function delete_exam($exam_id)
     {
         $exam = Exam::find($exam_id);
-       // Storage::disk('public')->delete($exam->image);
+        Storage::disk('public')->delete($exam->image);
         if (!$exam) {
             return ApiResponse::SendResponse(404, "Exam not found", '');
         }
