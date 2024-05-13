@@ -10,6 +10,7 @@ use App\Http\Resources\ProjectResource;
 use App\Models\Api\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -39,9 +40,9 @@ class ProjectController extends Controller
         if($validator->fails()){
             return ApiResponse::SendResponse(422,"Validation failed",$validator->errors());
         }
-        
-       
-    
+
+
+
         if($user->project_id!=null){
             $project=Project::find($user->project_id)->first();
             if(($project->status=='pending'||$project->status=='accepted')){
@@ -99,6 +100,20 @@ class ProjectController extends Controller
         return $this->pagination($projects,ProjectResource::class);
     }
 
+    public function check_plagiarism(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $validator = Validator::make($request->all(),[
+            'description' => ['required','string','min:100'],
+        ]);
+        if($validator->fails()){
+            return ApiResponse::SendResponse(422,"Validation failed",$validator->errors());
+        }
+        $resp = Http::timeout(500)->post("https://method-1-1.onrender.com/similarity?idea=$request->description", [
+            'idea' => $request->description,
+        ]);
+
+        return ApiResponse::SendResponse(200,"Plagiarism y",$resp->json());
+    }
 
 
 }

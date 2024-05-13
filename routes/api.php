@@ -17,12 +17,13 @@ Route::controller(UserAuthController::class)->group(function(){
 
 });
 // --------------------------------<Graduation Projects Routes>--------------------------------
-Route::controller(ProjectController::class)->middleware('auth:sanctum')
+Route::middleware('auth:sanctum')->controller(ProjectController::class)
     ->group(function(){
     Route::get('/show_GP', 'show_GP');
     Route::post('/submit_GP', 'submit_GP');
     Route::get('/get_GP', 'get_GP');
     Route::get('/search_GP', 'search_GP');
+    Route::post('/check_plagiarism', 'check_plagiarism');
 
     });
 
