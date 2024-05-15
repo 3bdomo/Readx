@@ -112,7 +112,7 @@ class ProjectController extends Controller
             'idea' => $request->description,
         ]);
 
-        return ApiResponse::SendResponse(200,"Plagiarism y",$resp->json());
+        return ApiResponse::SendResponse(200,"Plagiarism",$resp->json());
     }
 
 

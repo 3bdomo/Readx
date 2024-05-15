@@ -33,6 +33,7 @@ Route::controller(BookController::class)->middleware('auth:sanctum')
     ->group(function(){
         Route::get('/get_books', 'get_books');
         Route::get('/search_books', 'search_books');
+        Route::post('/rate_a_book','rate_a_book');
     });
 
 // --------------------------------<Research Routes>--------------------------------

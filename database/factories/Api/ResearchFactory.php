@@ -16,6 +16,7 @@ class ResearchFactory extends Factory
      */
     public function definition(): array
     {
+       // protected $table_name='researches';
         return [
             'name' => $this->faker->name,
             'researcher_name' => $this->faker->name,

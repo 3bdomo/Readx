@@ -26,6 +26,7 @@ return new class extends Migration
             $table->enum('status',['available','unavailable'])->default('available');
             $table->string('faculty')->default("FCI-Minia");
             $table->integer('pages_number')->unsigned()->nullable();
+            $table->integer('rates_number')->default(0);
             $table->timestamps();
         });
 
