@@ -137,7 +137,7 @@ class AdminProjectController extends Controller
     public function get_project($project_id)
     {
         // Find the existing project by ID
-        $project = Project::find($project_id);
+        $project = Project::with('users')->find($project_id);
         if (!$project) {
             return ApiResponse::SendResponse(404, "Project not found", '');
         }
@@ -146,23 +146,24 @@ class AdminProjectController extends Controller
     }
     public function get_accepted_projects()
     {
-        $project = Project::where('status','accepted')->latest()->paginate(10);
+        $project = Project::with('users')->where('status','accepted')->latest()->paginate(10);
         return $this->pagination($project,ProjectResource::class);
     }
     public function get_rejected_projects()
     {
-        $project = Project::where('status','rejected')->latest()->paginate(10);
+        $project = Project::with('users')->where('status','rejected')->latest()->paginate(10);
         return $this->pagination($project,ProjectResource::class);
     }
     public function get_pending_projects()
     {
-        $project = Project::where('status','pending')->latest()->paginate(10);
+        $project = Project::with('users')->where('status','pending')->latest()->paginate(10);
+      //  return ApiResponse::SendResponse(200,'',$project) ;
         return $this->pagination($project,ProjectResource::class);
     }
 
     public function get_all_projects()
     {
-        $project = Project::latest()->paginate(10);
+        $project = Project::with('users')->latest()->paginate(10);
         return $this->pagination($project,ProjectResource::class);
     }
 

@@ -8,6 +8,7 @@ use App\Helpers\SearchTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProjectResource;
 use App\Models\Api\Project;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -108,11 +109,12 @@ class ProjectController extends Controller
         if($validator->fails()){
             return ApiResponse::SendResponse(422,"Validation failed",$validator->errors());
         }
-        $resp = Http::timeout(500)->post("https://method-1-1.onrender.com/similarity?idea=$request->description", [
+        $resp = Http::timeout(500)->post("https://similaritycheck.up.railway.app/similarity?idea=$request->description", [
             'idea' => $request->description,
         ]);
 
-        return ApiResponse::SendResponse(200,"Plagiarism",$resp->json());
+       return ApiResponse::SendResponse(200,"Plagiarism",$resp->body());
+       // return Response()->json($resp->body());
     }
 
 

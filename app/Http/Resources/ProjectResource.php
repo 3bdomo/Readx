@@ -15,6 +15,7 @@ class ProjectResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'user_name' => optional($this->users->first())->first_name . ' ' . optional($this->users->first())->last_name,
             'description' => $this->description,
             'field'=>$this->field,
             'status'=>$this->status,

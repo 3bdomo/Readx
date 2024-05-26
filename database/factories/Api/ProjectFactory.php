@@ -29,7 +29,8 @@ class ProjectFactory extends Factory
             'Assistant_teacher_email' => fake()->email,
             'field' => fake()->text,
             'faculty' =>'FCI',
-            'status'=>'accepted',
+            'status' => fake()->randomElement(['accepted', 'rejected', 'pending']),
+
         ];
     }
 }
