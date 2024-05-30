@@ -28,6 +28,9 @@ Route::controller(AdminProjectController::class)->middleware('auth:admin')->grou
     Route::get('/admin/get_accepted_projects', 'get_accepted_projects');
     Route::get('/admin/get_rejected_projects', 'get_rejected_projects');
     Route::get('/admin/get_pending_projects', 'get_pending_projects');
+    Route::post('/admin/open_registration', 'open_registration');
+    Route::post('/admin/close_registration', 'close_registration');
+    Route::get('/admin/get_registration_status', 'get_registration_status');
 
 
 });

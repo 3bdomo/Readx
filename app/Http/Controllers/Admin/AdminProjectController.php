@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\ApiResponse;
+use App\Helpers\EnvUpdaterTrait;
 use App\Helpers\paginationTrait;
 use App\Helpers\SearchTrait;
 use App\Http\Controllers\Controller;
@@ -16,9 +17,13 @@ class AdminProjectController extends Controller
 {
     use  paginationTrait;
     use SearchTrait;
+    use EnvUpdaterTrait;
 ///update ,delete , accept ,reject;
     public function upload_project(Request $request)
     {
+        if(config('globals.registration_status')=='closed'){
+            return ApiResponse::SendResponse(422,"Registration is closed",'');
+        }
         $validator = Validator::make($request->all(),[
             'name' => ['required','string','max:255'],
             'description' => ['required','string','min:100'],
@@ -174,6 +179,31 @@ class AdminProjectController extends Controller
     public function get_previous_projects(){
         $project = Project::with('users')->where('year','<',date('Y'))->latest()->paginate(10);
         return $this->pagination($project,ProjectResource::class);
+    }
+    public function get_registration_status()
+    {
+        return ApiResponse::SendResponse(200, "Registration status", config('globals.registration_status'));
+    }
+    public function open_registration()
+    {
+        try {
+            self::setEnvValue('REGISTRATION_STATUS', 'open');
+        } catch (\Exception $e) {
+            return ApiResponse::SendResponse(500, "Error occurred", $e->getMessage());
+        }
+
+        return ApiResponse::SendResponse(200, "Registration opened successfully", config('globals.registration_status'));
+    }
+    public function close_registration()
+    {
+        try {
+            self::setEnvValue('REGISTRATION_STATUS', 'closed');
+
+        } catch (\Exception $e) {
+            return ApiResponse::SendResponse(500, "Error occurred", $e->getMessage());
+        }
+
+        return ApiResponse::SendResponse(200, "Registration closed successfully", config('globals.registration_status'));
     }
     public function search_GP(Request $request): \Illuminate\Http\JsonResponse
     {

@@ -30,6 +30,9 @@ class ProjectController extends Controller
 
 
     public function submit_GP(Request $request){
+        if(config('globals.registration_status')=='closed'){
+            return ApiResponse::SendResponse(422,"Registration is closed",'');
+        }
         $validator = Validator::make($request->all(),[
             'name' => ['required','string','max:255'],
             'description' => ['required','string','min:100'],
