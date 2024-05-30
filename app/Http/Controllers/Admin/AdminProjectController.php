@@ -167,7 +167,14 @@ class AdminProjectController extends Controller
         return $this->pagination($project,ProjectResource::class);
     }
 
-
+    public function get_current_year_projects(){
+        $project = Project::with('users')->where('year',date('Y'))->latest()->paginate(10);
+        return $this->pagination($project,ProjectResource::class);
+    }
+    public function get_previous_projects(){
+        $project = Project::with('users')->where('year','<',date('Y'))->latest()->paginate(10);
+        return $this->pagination($project,ProjectResource::class);
+    }
     public function search_GP(Request $request): \Illuminate\Http\JsonResponse
     {
         $columns_name=['name','description', 'field','status','output','year' ,
