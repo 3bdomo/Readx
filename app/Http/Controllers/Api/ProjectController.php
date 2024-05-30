@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use App\Http\Controllers\Admin\AdminProjectController;
 use App\Helpers\ApiResponse;
 use App\Helpers\paginationTrait;
 use App\Helpers\SearchTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProjectResource;
+use App\Models\Admin\Admin;
 use App\Models\Api\Project;
 use http\Env\Response;
 use Illuminate\Http\Request;
@@ -30,8 +31,9 @@ class ProjectController extends Controller
 
 
     public function submit_GP(Request $request){
+        
         if(config('globals.registration_status')=='closed'){
-            return ApiResponse::SendResponse(422,"Registration is closed",'');
+            return ApiResponse::SendResponse(422," closed",'');
         }
         $validator = Validator::make($request->all(),[
             'name' => ['required','string','max:255'],
