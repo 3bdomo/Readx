@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ProjectResource;
 use App\Models\Api\Project;
 use App\Models\Api\User;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use \Illuminate\Support\Facades\Validator;
@@ -22,7 +23,7 @@ class AdminProjectController extends Controller
     use SearchTrait;
     use EnvUpdaterTrait;
 ///update ,delete , accept ,reject;
-    static $registration_status ;
+
 
     public function upload_project(Request $request)
     {
@@ -185,31 +186,35 @@ class AdminProjectController extends Controller
     }
     public function get_registration_status()
     {
-        return ApiResponse::SendResponse(200, "Registration status", self::$registration_status);
+        try{
+           $registration_status = Setting::where('key','REGISTRATION_STATUS')->first();
+            return ApiResponse::SendResponse(200, "Registration status", $registration_status->value);
+
+        }catch (\Exception $e){
+            return ApiResponse::SendResponse(500, "Error occurred", $e->getMessage());
+        }
     }
     public function open_registration()
     {
         try {
-            self::$registration_status=  1;
-           // config("globals", ['registration_status'=>"open"]);
-            //self::setEnvValue('REGISTRATION_STATUS', 'open');
+          Setting::where('key','REGISTRATION_STATUS')->update(['value'=>'opened']);
+            return ApiResponse::SendResponse(200, "Registration opened successfully", );
+
         } catch (\Exception $e) {
             return ApiResponse::SendResponse(500, "Error occurred", $e->getMessage());
         }
 
-        return ApiResponse::SendResponse(200, "Registration opened successfully", self::$registration_status);
     }
     public function close_registration()
     {
         try {
-        self::$registration_status=  0;
-            //self::setEnvValue('REGISTRATION_STATUS', 'closed');
+            Setting::where('key','REGISTRATION_STATUS')->update(['value'=>'closed']);
+            return ApiResponse::SendResponse(200, "Registration closed successfully",);
 
         } catch (\Exception $e) {
             return ApiResponse::SendResponse(500, "Error occurred", $e->getMessage());
         }
 
-        return ApiResponse::SendResponse(200, "Registration closed successfully", self::$registration_status);
     }
     public function search_GP(Request $request): \Illuminate\Http\JsonResponse
     {

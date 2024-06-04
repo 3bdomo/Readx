@@ -31,7 +31,7 @@ class ProjectController extends Controller
 
 
     public function submit_GP(Request $request){
-        
+
         if(config('globals.registration_status')=='closed'){
             return ApiResponse::SendResponse(422," closed",'');
         }
@@ -114,7 +114,8 @@ class ProjectController extends Controller
         if($validator->fails()){
             return ApiResponse::SendResponse(422,"Validation failed",$validator->errors());
         }
-        $resp = Http::timeout(500)->post("https://similaritycheck.up.railway.app/similarity?idea=$request->description", [
+        $resp = Http::timeout(500)->
+        post("https://similaritycheck.up.railway.app/similarity?idea=$request->description", [
             'idea' => $request->description,
         ]);
 
