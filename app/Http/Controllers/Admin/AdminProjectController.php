@@ -180,7 +180,7 @@ class AdminProjectController extends Controller
         return $this->pagination($project,ProjectResource::class);
     }
     public function get_previous_projects(){
-        $project = Project::with('users')->where('year','<',date('Y'))->latest()->paginate(10);
+        $project = Project::with('users')->where('year','!=',date('Y'))->latest()->paginate(10);
         return $this->pagination($project,ProjectResource::class);
     }
     public function get_registration_status()
