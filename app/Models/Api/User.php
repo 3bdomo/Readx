@@ -28,6 +28,8 @@ class User extends Authenticatable
         'registration_status',
         'app_level',
         'points',
+        'department',
+        'grade',
     ];
 
     /**

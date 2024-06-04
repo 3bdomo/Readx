@@ -23,6 +23,8 @@ class UserAuthController extends Controller
                 'email' => ['required', 'email', 'unique:' . User::class],
                 'password' => ['required', 'min:6', 'confirmed',Rules\Password::default()],
                 'student_id' => ['required', 'unique:' . User::class, 'integer'],
+                'department' => 'required|in:CS,IS,BIO,general',
+                'grade' => 'required|in:1,2,3,4',
 
             ], [], [
                 'first_name' => 'First Name',
@@ -42,6 +44,8 @@ class UserAuthController extends Controller
             'password' => Hash::make($request->password),
             'email' => $request->email,
             'student_id' => $request->student_id,
+            'department' => $request->department,
+            'grade' => $request->grade,
 
         ]);
         $data['token'] = $user->createToken('user_token')->plainTextToken;

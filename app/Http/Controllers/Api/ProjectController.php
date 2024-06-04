@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ProjectResource;
 use App\Models\Admin\Admin;
 use App\Models\Api\Project;
+use App\Models\Setting;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,9 +32,13 @@ class ProjectController extends Controller
 
 
     public function submit_GP(Request $request){
-
-        if(config('globals.registration_status')=='closed'){
-            return ApiResponse::SendResponse(422," closed",'');
+        try {
+            $registration_status = Setting::where('key', 'registration_status')->first()->value;
+        }catch (\Exception $e){
+            return ApiResponse::SendResponse(500, "Internal server error", $e->getMessage());
+        }
+        if($registration_status=='closed'){
+            return ApiResponse::SendResponse(422," Registration is closed",'');
         }
         $validator = Validator::make($request->all(),[
             'name' => ['required','string','max:255'],
@@ -52,6 +57,7 @@ class ProjectController extends Controller
         if($user->project_id!=null){
             $project=Project::find($user->project_id)->first();
             if(($project->status=='pending'||$project->status=='accepted')){
+
                 return ApiResponse::SendResponse(422,"You have already submitted a project",'');
             }
          //   return ApiResponse::SendResponse(200,"there is a registered project for this user ",'');
@@ -69,7 +75,7 @@ class ProjectController extends Controller
 
        ]);
 
-
+        $user->registration_status=true;
         $user->project_id =$project->id;
         $user->save();
         return ApiResponse::SendResponse(201, "Uploaded successfully", "");

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminBookController;
 use App\Http\Controllers\Admin\AdminExamController;
 use App\Http\Controllers\Admin\AdminProjectController;
 use App\Http\Controllers\Admin\AdminResearchController;
+use App\Http\Controllers\Admin\ReportController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -64,4 +65,10 @@ Route::controller(AdminResearchController::class)->middleware('auth:admin')->gro
     Route::get('/admin/get_all_researches', 'show_all_researches');
     Route::get('/admin/search_research', 'search_research');
     Route::get('/admin/show_research/{research_id}', 'show_research');
+});
+
+
+// --------------------------------<Reports Routes>--------------------------------
+Route::controller(ReportController::class)->middleware('auth:admin')->group(function () {
+  Route::get('/admin/get_projects_report', 'get_projects_report');
 });

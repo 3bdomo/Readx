@@ -22,7 +22,8 @@ return new class extends Migration
             $table->string('faculty')->default('FCI-Minia');
             $table->boolean('eligible_to_registration')->default(false);
             $table->boolean('registration_status')->default(false);
-            $table->enum('department',['CS','IS','BIO','general']);
+            $table->enum('department',['CS','IS','BIO','general'])->required();
+            $table->enum('grade',['1','2','3','4'])->required();
             $table->unsignedInteger('app_level')->default(0);
             $table->unsignedInteger('points')->default(0);
             $table->rememberToken();

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\ApiResponse;
-use App\Helpers\EnvUpdaterTrait;
 use App\Helpers\paginationTrait;
 use App\Helpers\SearchTrait;
 use App\Http\Controllers\Controller;
@@ -21,7 +20,7 @@ class AdminProjectController extends Controller
 {
     use  paginationTrait;
     use SearchTrait;
-    use EnvUpdaterTrait;
+
 ///update ,delete , accept ,reject;
 
 
@@ -187,7 +186,7 @@ class AdminProjectController extends Controller
     public function get_registration_status()
     {
         try{
-           $registration_status = Setting::where('key','REGISTRATION_STATUS')->first();
+           $registration_status = Setting::where('key','registration_status')->first();
             return ApiResponse::SendResponse(200, "Registration status", $registration_status->value);
 
         }catch (\Exception $e){
@@ -197,7 +196,7 @@ class AdminProjectController extends Controller
     public function open_registration()
     {
         try {
-          Setting::where('key','REGISTRATION_STATUS')->update(['value'=>'opened']);
+          Setting::where('key','registration_status')->update(['value'=>'opened']);
             return ApiResponse::SendResponse(200, "Registration opened successfully", );
 
         } catch (\Exception $e) {
@@ -208,7 +207,7 @@ class AdminProjectController extends Controller
     public function close_registration()
     {
         try {
-            Setting::where('key','REGISTRATION_STATUS')->update(['value'=>'closed']);
+            Setting::where('key','registration_status')->update(['value'=>'closed']);
             return ApiResponse::SendResponse(200, "Registration closed successfully",);
 
         } catch (\Exception $e) {
