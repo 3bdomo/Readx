@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->controller(ProjectController::class)
     Route::get('/get_GP', 'get_GP');
     Route::get('/search_GP', 'search_GP');
     Route::post('/check_plagiarism', 'check_plagiarism');
+    Route::post('/add_team_members', 'add_team_members');
 
     });
 

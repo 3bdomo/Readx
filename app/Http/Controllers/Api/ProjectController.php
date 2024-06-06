@@ -129,5 +129,23 @@ class ProjectController extends Controller
        // return Response()->json($resp->body());
     }
 
+    public function add_team_members(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $validator = Validator::make($request->all(),[
+            'team_members' => ['required','array'],
+        ]);
+        if($validator->fails()){
+            return ApiResponse::SendResponse(422,"Validation failed",$validator->errors());
+        }
+        $user=auth::user();
+        $project=$user->project;
+        if($project==null){
+            return ApiResponse::SendResponse(422,"You have not submitted a project yet",'');
+        }
+        $project->team_members=$request->team_members;
+        $project->save();
+        return ApiResponse::SendResponse(200,"Members added successfully",$project);
+    }
+
 
 }

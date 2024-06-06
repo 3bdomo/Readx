@@ -28,6 +28,7 @@ class ProjectResource extends JsonResource
             'Assistant_teacher_email' => $this->assistant_teacher_email,
             'classification' => $this->classification,
             'faculty' => $this->faculty,
+            'team_members' => $this->team_members,
         ];
 
 
