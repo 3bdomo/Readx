@@ -154,34 +154,35 @@ class AdminProjectController extends Controller
     }
     public function get_accepted_projects()
     {
-        $project = Project::with('users')->where('status','accepted')->latest()->paginate(10);
+        $project = Project::with('users')->where('status','accepted')->latest()->paginate(5);
         return $this->pagination($project,ProjectResource::class);
     }
     public function get_rejected_projects()
     {
-        $project = Project::with('users')->where('status','rejected')->latest()->paginate(10);
+        $project = Project::with('users')->where('status','rejected')->latest()->paginate(5);
         return $this->pagination($project,ProjectResource::class);
     }
     public function get_pending_projects()
     {
-        $project = Project::with('users')->where('status','pending')->latest()->paginate(10);
+        $project = Project::with('users')->where('status','pending')->latest()->paginate(5);
       //  return ApiResponse::SendResponse(200,'',$project) ;
         return $this->pagination($project,ProjectResource::class);
     }
 
     public function get_all_projects()
     {
-        $project = Project::with('users')->latest()->paginate(10);
+        $project = Project::with('users')->latest()->paginate(5);
         return $this->pagination($project,ProjectResource::class);
     }
 
     public function get_current_year_projects(){
-        $project = Project::with('users')->where('year',date('Y'))->latest()->paginate(10);
-        return $this->pagination($project,ProjectResource::class);
+        $project = Project::with('users')->where('year',date('Y'))->latest()->get();
+        return ApiResponse::SendResponse(200,'',ProjectResource::collection($project));
     }
     public function get_previous_projects(){
-        $project = Project::with('users')->where('year','!=',date('Y'))->latest()->paginate(10);
-        return $this->pagination($project,ProjectResource::class);
+        $project = Project::with('users')->where('year','<>',date('Y'))->latest()->get();
+
+        return ApiResponse::SendResponse(200,'',ProjectResource::collection($project));
     }
     public function get_registration_status()
     {
