@@ -141,6 +141,9 @@ class ProjectController extends Controller
         if($project==null){
             return ApiResponse::SendResponse(422,"You have not submitted a project yet",'');
         }
+        if($project->status!='accepted'){
+            return ApiResponse::SendResponse(422,"You can't add members to your project",'');
+        }
         $project->team_members=$request->team_members;
         $project->save();
         return ApiResponse::SendResponse(200,"Members added successfully",$project);
