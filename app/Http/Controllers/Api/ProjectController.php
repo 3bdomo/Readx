@@ -10,7 +10,6 @@ use App\Http\Resources\ProjectResource;
 use App\Models\Admin\Admin;
 use App\Models\Api\Project;
 use App\Models\Setting;
-use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -120,13 +119,13 @@ class ProjectController extends Controller
         if($validator->fails()){
             return ApiResponse::SendResponse(422,"Validation failed",$validator->errors());
         }
-        $resp = Http::timeout(500)->
-        post("https://similaritycheck.up.railway.app/similarity?idea=$request->description", [
-            'idea' => $request->description,
-        ]);
+        ini_set('max_execution_time', 240);
 
-       return ApiResponse::SendResponse(200,"Plagiarism",$resp->body());
-       // return Response()->json($resp->body());
+        $resp = Http::timeout(240)->
+        post("https://gp-api-03-2.onrender.com/similarity?idea=$request->description");
+
+       return ApiResponse::SendResponse(200,"Plagiarism checked",$resp->body());
+
     }
 
     public function add_team_members(Request $request): \Illuminate\Http\JsonResponse

@@ -23,6 +23,7 @@ class ReportController extends Controller
         $grade_four_students=User::where('grade',4)->count();
         $data['submitted_students_percentage'] = ($grade_four_students != 0) ?
             round(($registered_students / $grade_four_students) * 100, 2) : null;
+            $data['submitted_students'] ="$registered_students / $grade_four_students";
 
         $accepted_projects=Project::where('status','accepted')->where('year',date('Y'))->count();
         $all_projects=Project::where('year',date('Y'))->count();

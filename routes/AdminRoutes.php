@@ -32,6 +32,7 @@ Route::controller(AdminProjectController::class)->middleware('auth:admin')->grou
     Route::post('/admin/open_registration', 'open_registration');
     Route::post('/admin/close_registration', 'close_registration');
     Route::get('/admin/get_registration_status', 'get_registration_status');
+    Route::post('/check_plagiarism', 'check_plagiarism');
 
 
 });

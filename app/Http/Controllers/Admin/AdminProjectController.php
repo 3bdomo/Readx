@@ -12,6 +12,7 @@ use App\Models\Api\User;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
 use \Illuminate\Support\Facades\Validator;
 
 
@@ -181,7 +182,6 @@ class AdminProjectController extends Controller
     }
     public function get_previous_projects(){
         $project = Project::with('users')->where('year','<>',date('Y'))->latest()->get();
-
         return ApiResponse::SendResponse(200,'',ProjectResource::collection($project));
     }
     public function get_registration_status()
@@ -225,6 +225,22 @@ class AdminProjectController extends Controller
         $projects = $this->search(Project::class, $request,$columns_name) ?? 0;
 
         return $this->pagination($projects,ProjectResource::class);
+    }
+    public function check_plagiarism(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $validator = Validator::make($request->all(),[
+            'description' => ['required','string','min:100'],
+        ]);
+        if($validator->fails()){
+            return ApiResponse::SendResponse(422,"Validation failed",$validator->errors());
+        }
+        ini_set('max_execution_time', 240);
+
+        $resp = Http::timeout(240)->
+        post("https://gp-api-03-2.onrender.com/similarity?idea=$request->description");
+
+        return ApiResponse::SendResponse(200,"Plagiarism checked",$resp->body());
+
     }
 
 }
