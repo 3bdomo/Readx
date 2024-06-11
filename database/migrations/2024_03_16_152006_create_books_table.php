@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('category')->nullable();
             $table->string('ISBN')->nullable();
             $table->string('image')->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->float('rating',8,2)->nullable();
             $table->enum('status',['available','unavailable'])->default('available');
             $table->string('faculty')->default("FCI-Minia");
