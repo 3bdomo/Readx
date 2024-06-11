@@ -18,8 +18,8 @@ class BookController extends Controller
     use  paginationTrait;
     use SearchTrait;
     public function get_books(){
-        $books=Book::paginate(5);
-        return $this->pagination($books,BookResource::class);
+        $books=Book::get();
+        return ApiResponse::SendResponse(200,'books fetched',$books);
     }
 
 
