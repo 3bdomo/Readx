@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ApiResponse;
 use App\Helpers\paginationTrait;
 use App\Helpers\SearchTrait;
 use App\Http\Controllers\Controller;
@@ -17,8 +18,8 @@ class ResearchController extends Controller
     use  paginationTrait;
     use SearchTrait;
     public function get_research(){
-        $researches=Research::paginate(5);
-        return $this->pagination($researches,ResearchResource::class);
+        $researches=Research::get();
+        return ApiResponse::SendResponse(200,'',$researches);
     }
     public function search_research(Request $request){
 

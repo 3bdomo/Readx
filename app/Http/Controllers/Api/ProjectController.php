@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
-
+use Spatie\FlareClient\Api;
 
 
 class ProjectController extends Controller
@@ -24,8 +24,8 @@ class ProjectController extends Controller
     public function show_GP(): \Illuminate\Http\JsonResponse
     {
 
-        $project = Project::latest()->paginate(5);
-        return $this->pagination($project,ProjectResource::class);
+        $project = Project::get();
+        return ApiResponse::SendResponse(200,'',$project);
 
     }
 
