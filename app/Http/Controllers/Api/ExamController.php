@@ -15,8 +15,8 @@ class ExamController extends Controller
     use searchTrait;
 public function show_exams(Request $request)# where
 {
-    $exams=Exam::paginate(5);
-    return $this->pagination($exams,ExamResource::class);
+    $exams=Exam::get();
+    return ApiResponse::SendResponse(200,'exams fetched',$exams);
 
  }
 
