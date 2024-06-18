@@ -104,7 +104,7 @@ To run this project locally, follow these steps:
 
 ## Acknowledgments
 
-Thank you to my doctors, peers, and friends for their support and guidance throughout this project.
+I would like to express my gratitude to my professors, peers, and friends for their support and guidance throughout this project.
 
 ## License
 
