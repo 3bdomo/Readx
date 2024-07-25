@@ -35,15 +35,22 @@ class AdminProjectController extends Controller
             'field' => ['required','string'],
             'student_id'=>['required','integer'],
             'technologies'=>['required','string'],
+            'teamMember1'=>['nullable','string'],
+            'teamMember2'=>['nullable','string'],
+            'teamMember3'=>['nullable','string'],
+            'teamMember4'=>['nullable','string'],
+            'teamMember5'=>['nullable','string'],
+            'teamMember6'=>['nullable','string'],
+            'teamMember7'=>['nullable','string'],
         ]);
         if($validator->fails()){
             return ApiResponse::SendResponse(422,"Validation failed",$validator->errors());
         }
         $student_id=$request->student_id;
         $user=User::where('student_id',$student_id)->first();
-        if(!$user){
-            return ApiResponse::SendResponse(422,"Student ID {$student_id} not found",'');
-        }
+        // if(!$user){
+        //     return ApiResponse::SendResponse(422,"Student ID {$student_id} not found",'');
+        // }
         $project=Project::create([
             'name' =>$request->name,
             'description' => $request->description,
@@ -52,10 +59,18 @@ class AdminProjectController extends Controller
             'status' =>'pending',
             'year' =>date('Y'),
             'technologies' => $request->technologies,
+            'teamMember1' => $request->teamMember1,
+            'teamMember2' => $request->teamMember2,
+            'teamMember3' => $request->teamMember3,
+            'teamMember4' => $request->teamMember4,
+            'teamMember5' => $request->teamMember5,
+            'teamMember6' => $request->teamMember6,
+            'teamMember7' => $request->teamMember7,
 
         ]);
-        $user->project_id =$project->id;
-        $user->save();
+
+        // $user->project_id =$project->id;
+        // $user->save();
         return ApiResponse::SendResponse(201, "Uploaded successfully", '');
 
     }
@@ -123,8 +138,10 @@ class AdminProjectController extends Controller
         $project->update([
             'status' => 'accepted',
         ]);
-
-        return ApiResponse::SendResponse(200, "Project accepted successfully", '');
+        $resp = Http::timeout(400)->
+        post("http://127.0.0.1:7000/add?new_idea=$project->description");
+        echo $resp;
+        return ApiResponse::SendResponse(200, "Project accepted successfully", $resp);
     }
     public function reject_project($project_id)
     {
@@ -226,18 +243,19 @@ class AdminProjectController extends Controller
 
         return $this->pagination($projects,ProjectResource::class);
     }
-    public function check_plagiarism(Request $request): \Illuminate\Http\JsonResponse
+    public function check_plagiarism(): \Illuminate\Http\JsonResponse
     {
-        $validator = Validator::make($request->all(),[
-            'description' => ['required','string','min:100'],
-        ]);
-        if($validator->fails()){
-            return ApiResponse::SendResponse(422,"Validation failed",$validator->errors());
-        }
-        ini_set('max_execution_time', 240);
+        // $validator = Validator::make($request->all(),[
+        //     'description' => ['required','string','min:100'],
+        // ]);
+        // if($validator->fails()){
+        //     return ApiResponse::SendResponse(422,"Validation failed",$validator->errors());
+        // }
+        $idea=request()->query('idea');
+        ini_set('max_execution_time', 40);
 
-        $resp = Http::timeout(240)->
-        post("https://gp-api-03-2.onrender.com/similarity?idea=$request->description");
+        $resp = Http::timeout(400)->
+        post("http://127.0.0.1:7000/similarity?idea=$idea");
 
         return ApiResponse::SendResponse(200,"Plagiarism checked",$resp->body());
 

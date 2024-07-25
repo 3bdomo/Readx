@@ -24,6 +24,13 @@ return new class extends Migration
             $table->string('assistant_teacher_email')->unique()->nullable();
             $table->string('professor_name')->nullable();
             $table->string('professor_email')->unique()->nullable();
+            $table->string('teamMember1')->nullable();
+            $table->string('teamMember2')->nullable();
+            $table->string('teamMember3')->nullable();
+            $table->string('teamMember4')->nullable();
+            $table->string('teamMember5')->nullable();
+            $table->string('teamMember6')->nullable();
+            $table->string('teamMember7')->nullable();
             $table->timestamps();
         });
     }

@@ -34,6 +34,7 @@ class ReportController extends Controller
         $totalProjects = Project::count();
         $data['projectsByField' ]= Project::
         select('field',  DB::raw('ROUND((count(*) / '.$totalProjects.') * 100 ,2)as percentage'))
+        //->whereYear('created_at', Carbon::now()->year) // Filter by current year
         ->groupBy('field')
         ->get();
 
