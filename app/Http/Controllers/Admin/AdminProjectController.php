@@ -33,7 +33,7 @@ class AdminProjectController extends Controller
             'description' => ['required','string','min:100'],
             'output' => ['required','string'],
             'field' => ['required','string'],
-            'student_id'=>['required','integer'],
+            'year' => ['nullable','integer'],
             'technologies'=>['required','string'],
             'teamMember1'=>['nullable','string'],
             'teamMember2'=>['nullable','string'],
@@ -42,6 +42,8 @@ class AdminProjectController extends Controller
             'teamMember5'=>['nullable','string'],
             'teamMember6'=>['nullable','string'],
             'teamMember7'=>['nullable','string'],
+            'professor_name'=>['nullable','string'],
+            'Assistant_teacher_name'=>['nullable','string'],
         ]);
         if($validator->fails()){
             return ApiResponse::SendResponse(422,"Validation failed",$validator->errors());
@@ -57,7 +59,7 @@ class AdminProjectController extends Controller
             'output' => $request->output,
             'field' => $request->field,
             'status' =>'pending',
-            'year' =>date('Y'),
+            'year' =>$request->year ?? date('Y'),
             'technologies' => $request->technologies,
             'teamMember1' => $request->teamMember1,
             'teamMember2' => $request->teamMember2,
@@ -66,6 +68,8 @@ class AdminProjectController extends Controller
             'teamMember5' => $request->teamMember5,
             'teamMember6' => $request->teamMember6,
             'teamMember7' => $request->teamMember7,
+            'professor_name' => $request->professor_name,
+            'Assistant_teacher_name' => $request->Assistant_teacher_name,
 
         ]);
 
@@ -194,7 +198,13 @@ class AdminProjectController extends Controller
     }
 
     public function get_current_year_projects(){
-        $project = Project::with('users')->where('year',date('Y'))->latest()->get();
+        if(date('M')>8) {
+            $project = Project::with('users')->where('year', date('Y'))->latest()->get();
+        }
+        else{
+            $project = Project::with('users')->where('year',(date('Y')-1))->latest()->get();
+        }
+      //  $project = Project::with('users')->where('year',date('Y'))->orWhere('year',(date('Y')-1))->latest()->get();
         return ApiResponse::SendResponse(200,'',ProjectResource::collection($project));
     }
     public function get_previous_projects(){
