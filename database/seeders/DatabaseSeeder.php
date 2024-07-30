@@ -19,14 +19,14 @@ class DatabaseSeeder extends Seeder
       //  \App\Models\Api\Research::factory(20)->create();
      //   \App\Models\Api\Exam::factory(20)->create();
 
-//        Setting::create([
-//            'key' => 'registration_status',
-//            'value' => 'open',
-//        ]);
+        Setting::create([
+            'key' => 'registration_status',
+            'value' => 'open',
+        ]);
 
          \App\Models\Admin\Admin::create([
-             'username' => 'abdo',
-             'password' => Hash::make('12345678'),
+             'username' => 'fciadmin',
+             'password' => Hash::make('admin@fciminia'),
          ]);
         // \App\Models\Api\User::factory(10)->create();
 

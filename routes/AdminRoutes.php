@@ -15,7 +15,7 @@ Route::controller(AdminAuthController::class)->group(function(){
 
 });
 //-----------------------------------<Projects Routes>---------------------------------------
-Route::controller(AdminProjectController::class)->middleware('auth:admin')->group(function (){
+Route::controller(AdminProjectController::class)->group(function (){
     Route::post('/admin/upload_project', 'upload_project');
     Route::get('/admin/get_all_projects', 'get_all_projects');
     Route::get('/admin/search_GP', 'search_GP');

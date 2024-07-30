@@ -28,9 +28,8 @@ class AdminAuthController extends Controller
 
         if ($admin && Hash::check($request->password, $admin->password))  {
 
-          $admin->tokens()->delete();//delete odl tokens
-            $expiresAt = Carbon::now()->addDays(7);
-            $token = $admin->createToken('MyAuthApp', ['*'], $expiresAt)->plainTextToken;
+            $admin->tokens()->delete();//delete odl tokens
+            $token = $admin->createToken('MyAuthApp', ['*'])->plainTextToken;
 
             return ApiResponse::SendResponse(200, 'Login Successful', ['token' => $token]);
         } else {

@@ -48,8 +48,8 @@ class AdminProjectController extends Controller
         if($validator->fails()){
             return ApiResponse::SendResponse(422,"Validation failed",$validator->errors());
         }
-        $student_id=$request->student_id;
-        $user=User::where('student_id',$student_id)->first();
+       // $student_id=$request->student_id;
+        //$user=User::where('student_id',$student_id)->first();
         // if(!$user){
         //     return ApiResponse::SendResponse(422,"Student ID {$student_id} not found",'');
         // }
@@ -253,22 +253,51 @@ class AdminProjectController extends Controller
 
         return $this->pagination($projects,ProjectResource::class);
     }
-    public function check_plagiarism(): \Illuminate\Http\JsonResponse
+    public function check_plagiarism(Request $request): \Illuminate\Http\JsonResponse
     {
-        // $validator = Validator::make($request->all(),[
-        //     'description' => ['required','string','min:100'],
-        // ]);
-        // if($validator->fails()){
-        //     return ApiResponse::SendResponse(422,"Validation failed",$validator->errors());
-        // }
-        $idea=request()->query('idea');
+        // Validate the request to ensure it has the 'idea' parameter
+        $request->validate([
+            'idea' => 'required|string|min:10', // Adjust validation rules as needed
+        ]);
+
+        // Get the 'idea' parameter from the request
+        $idea = $request->query('idea');
+
+        // Set a timeout for the HTTP request
         ini_set('max_execution_time', 40);
 
-        $resp = Http::timeout(400)->
-        post("http://127.0.0.1:7000/similarity?idea=$idea");
+        try {
+            // Send a POST request to the FastAPI endpoint
+            $response = Http::timeout(400)
+                ->post("http://127.0.0.1:7000/similarity?idea=$idea", ['idea' => $idea]);
 
-        return ApiResponse::SendResponse(200,"Plagiarism checked",$resp->body());
+            // Check if the request was successful
+            if ($response->successful()) {
+                $data = $response->json(); // Decode the JSON response
 
+                // Structure the response to send to the frontend
+                return response()->json([
+                    'status' => $response->status(), // HTTP status code
+                    'msg' => 'Plagiarism checked',
+                    'data' => $data
+                ], 200);
+            } else {
+                // Handle unsuccessful response
+                return response()->json([
+                    'status' => $response->status(),
+                    'msg' => 'Failed to check plagiarism',
+                    'data' => $response->body()
+                ], $response->status());
+            }
+        } catch (\Exception $e) {
+            // Handle exceptions and errors
+            return response()->json([
+                'status' => 500,
+                'msg' => 'Server error',
+                'data' => $e->getMessage()
+            ], 500);
+        }
     }
+
 
 }
